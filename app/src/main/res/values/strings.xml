@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">GripLockIoT</string>
+    <string name="exit_the_game">Exit the game</string>
+    <string name="view_scorecards">View scorecards</string>
+    <string name="create_course">Create course</string>
+    <string name="start_game">Start game</string>
+    <string name="title_activity_start_game">StartGameActivity</string>
+    <string name="course_name">Course Name</string>
+    <string name="type_the_name_of_the_course">Type the name of the course</string>
+    <string name="number_of_holes">Number of Holes</string>
+    <string name="_18">18</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="hole">Hole:</string>
+    <string name="par">Par:</string>
+    <string name="length">Length:</string>
 </resources>

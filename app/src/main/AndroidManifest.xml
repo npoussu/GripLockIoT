@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".StartGameActivity"
+            android:label="@string/title_activity_start_game"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ViewScoreCardsActivity" />
+        <activity android:name=".CreateCourseActivity" />
     </application>
 
 </manifest>
