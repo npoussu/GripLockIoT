@@ -14,4 +14,5 @@
     <string name="hole">Hole:</string>
     <string name="par">Par:</string>
     <string name="length">Length:</string>
+    <string name="hello_world">Hello world</string>
 </resources>
