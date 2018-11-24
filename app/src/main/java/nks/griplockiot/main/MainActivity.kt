@@ -7,9 +7,9 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import nks.griplockiot.R
-import nks.griplockiot.StartGameActivity
-import nks.griplockiot.ViewScoreCardsActivity
 import nks.griplockiot.createcourse.CreateCourseActivity
+import nks.griplockiot.startgame.StartGameActivity
+import nks.griplockiot.viewscorecards.ViewScoreCardsActivity
 
 class MainActivity : AppCompatActivity() {
 

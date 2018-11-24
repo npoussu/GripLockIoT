@@ -1,10 +1,11 @@
-package nks.griplockiot
+package nks.griplockiot.startgame
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_start_game.*
+import nks.griplockiot.R
 
 class StartGameActivity : AppCompatActivity() {
 

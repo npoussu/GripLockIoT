@@ -8,7 +8,7 @@ import android.widget.TextView
 import nks.griplockiot.R
 import nks.griplockiot.model.Hole
 
-class CourseAdapter(val courseList: ArrayList<Hole>) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
+class CourseAdapter(val courseList: List<Hole>) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.course_list_item, parent, false)
         return ViewHolder(view)

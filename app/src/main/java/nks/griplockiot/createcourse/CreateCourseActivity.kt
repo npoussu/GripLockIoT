@@ -1,6 +1,5 @@
 package nks.griplockiot.createcourse
 
-import android.arch.persistence.room.Room
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -15,20 +14,20 @@ import kotlin.concurrent.thread
 
 class CreateCourseActivity : AppCompatActivity() {
 
-    private lateinit var database: AppDatabase
     private lateinit var course: Course
+    private lateinit var list: List<Course>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_course)
         title = "Create a new course!"
 
-        database = Room.databaseBuilder(this, AppDatabase::class.java, "course").build()
-
         val courseArrayList: ArrayList<Hole> = arrayListOf()
         courseArrayList.add(Hole(1, 3, 33))
         courseArrayList.add(Hole(2, 3, 34))
         courseArrayList.add(Hole(3, 3, 35))
+
+        // Toast.makeText(this, "no db" + courseArrayList.toString(), Toast.LENGTH_SHORT).show()
 
         course = Course(courseArrayList)
 
@@ -47,11 +46,19 @@ class CreateCourseActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menuAddCourse -> {
-                Toast.makeText(applicationContext, "You clicked menu add course", Toast.LENGTH_SHORT).show()
-                //TODO: Add the course adding functionality here
+                Toast.makeText(applicationContext, "You clicked menu add course, inserting to DB", Toast.LENGTH_SHORT).show()
                 thread {
-                    database.getCourseDAO().insert(course)
+                    AppDatabase.getInstance(this).getCourseDAO().insert(course)
                 }
+            }
+            R.id.queryDB -> {
+                thread {
+                    list = AppDatabase.getInstance(this).getCourseDAO().getCourses()
+                }
+            }
+            R.id.selectDB -> {
+                Toast.makeText(this, list[0].holes.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, list.toString(), Toast.LENGTH_SHORT).show()
             }
         }
         return super.onOptionsItemSelected(item)

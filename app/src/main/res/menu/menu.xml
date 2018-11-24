@@ -5,4 +5,12 @@
         android:id="@+id/menuAddCourse"
         android:title="Add course" />
 
+    <item
+        android:id="@+id/queryDB"
+        android:title="Query DB" />
+
+    <item
+        android:id="@+id/selectDB"
+        android:title="Select DB" />
+
 </menu>

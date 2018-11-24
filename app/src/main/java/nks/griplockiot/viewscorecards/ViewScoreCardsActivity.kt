@@ -1,7 +1,8 @@
-package nks.griplockiot
+package nks.griplockiot.viewscorecards
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import nks.griplockiot.R
 
 class ViewScoreCardsActivity : AppCompatActivity() {
 
