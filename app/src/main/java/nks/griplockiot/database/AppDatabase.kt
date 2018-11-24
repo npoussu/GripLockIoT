@@ -1,7 +1,7 @@
-package nks.griplockiot.Database
+package nks.griplockiot.database
 
 import android.arch.persistence.room.Database
-import nks.griplockiot.Model.Course
+import nks.griplockiot.model.Course
 
 @Database(entities = [Course::class], version = 1, exportSchema = false)
 abstract class AppDatabase {

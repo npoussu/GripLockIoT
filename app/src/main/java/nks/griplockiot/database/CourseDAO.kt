@@ -1,7 +1,7 @@
-package nks.griplockiot.Database
+package nks.griplockiot.database
 
 import android.arch.persistence.room.*
-import nks.griplockiot.Model.Course
+import nks.griplockiot.model.Course
 
 @Dao
 interface CourseDAO {
