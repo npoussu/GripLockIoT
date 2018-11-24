@@ -1,12 +1,13 @@
 package nks.griplockiot.database
 
 import android.arch.persistence.room.*
+import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import nks.griplockiot.model.Course
 
 @Dao
 interface CourseDAO {
 
-    @Insert
+    @Insert(onConflict = REPLACE)
     fun insert(vararg course: Course)
 
     @Update
@@ -16,5 +17,5 @@ interface CourseDAO {
     fun delete(vararg course: Course)
 
     @Query("SELECT * FROM course")
-    fun getCourses(): ArrayList<Course>
+    fun getCourses(): List<Course>
 }
