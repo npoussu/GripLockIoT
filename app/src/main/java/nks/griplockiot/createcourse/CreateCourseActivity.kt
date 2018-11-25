@@ -28,8 +28,19 @@ class CreateCourseActivity : AppCompatActivity() {
         courseArrayList.add(Hole(3, 3, 35))
 
         // Toast.makeText(this, "no db" + courseArrayList.toString(), Toast.LENGTH_SHORT).show()
+        val iterator = courseArrayList.listIterator()
+        var parTotal = 0
 
-        course = Course(courseArrayList)
+        // Todo: Create an iterator util function
+
+        for (item in iterator) {
+            parTotal += item.par
+        }
+
+        course = Course("Murhaniemi", parTotal, courseArrayList)
+
+        //TODO: Add a way that plus/minus add/decrements amount of holes
+        //TODO: Add a way to change the par values
 
         val fragmentManager = supportFragmentManager
         val fragmentAdapter = CoursePagerAdapter(fragmentManager)

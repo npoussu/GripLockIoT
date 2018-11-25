@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_create_course.*
 import nks.griplockiot.R
-import nks.griplockiot.data.CourseAdapter
+import nks.griplockiot.data.HoleAdapter
 import nks.griplockiot.model.Hole
 
 class CreateCourseFragment : Fragment() {
@@ -29,7 +29,7 @@ class CreateCourseFragment : Fragment() {
 
         course_list_create_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
 
-        val adapter = CourseAdapter(courseListCreateCourse)
+        val adapter = HoleAdapter(courseListCreateCourse)
         course_list_create_course.adapter = adapter
 
         holes.text = holeIndex.toString()

@@ -8,7 +8,7 @@ import android.content.Context
 import nks.griplockiot.model.Course
 import nks.griplockiot.util.Converters
 
-@Database(entities = [Course::class], version = 1, exportSchema = false)
+@Database(entities = [Course::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getCourseDAO(): CourseDAO
@@ -22,6 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
                         AppDatabase::class.java,
                         "course")
                         .allowMainThreadQueries()
+                        .fallbackToDestructiveMigration()
                         .build()
             }
             return INSTANCE as AppDatabase
