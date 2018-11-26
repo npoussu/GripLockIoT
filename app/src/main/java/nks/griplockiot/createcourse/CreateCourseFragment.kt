@@ -25,7 +25,7 @@ class CreateCourseFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        addCourses()
+        addCourses(holeIndex)
 
         course_list_create_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
 
@@ -38,6 +38,10 @@ class CreateCourseFragment : Fragment() {
             if (holeIndex > 0) {
                 holeIndex--
                 holes.text = holeIndex.toString()
+                // Remove last item from RecyclerView
+                courseListCreateCourse.removeAt(courseListCreateCourse.size - 1)
+                // Update adapters last index item
+                adapter.notifyItemRemoved(courseListCreateCourse.size)
             } else {
                 Toast.makeText(context, "Course must contain atleast one hole", Toast.LENGTH_SHORT).show()
             }
@@ -47,6 +51,9 @@ class CreateCourseFragment : Fragment() {
             if (holeIndex < 36) {
                 holeIndex++
                 holes.text = holeIndex.toString()
+                addCourse(adapter.itemCount + 1)
+                course_list_create_course.scrollToPosition(courseListCreateCourse.size - 1)
+                adapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(context, "Course must contain a maximum of 36 holes", Toast.LENGTH_SHORT).show()
             }
@@ -58,25 +65,15 @@ class CreateCourseFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_create_course, container, false)
     }
 
-    private fun addCourses() {
-        with(courseListCreateCourse) {
-            add(Hole(1, 3, 33))
-            add(Hole(2, 4, 60))
-            add(Hole(3, 5, 73))
-            add(Hole(4, 4, 153))
-            add(Hole(5, 5, 55))
-            add(Hole(6, 3, 87))
-            add(Hole(7, 5, 55))
-            add(Hole(8, 3, 187))
-            add(Hole(9, 3, 151))
-            add(Hole(10, 3, 33))
-            add(Hole(12, 5, 73))
-            add(Hole(13, 4, 153))
-            add(Hole(14, 5, 55))
-            add(Hole(15, 3, 87))
-            add(Hole(16, 5, 55))
-            add(Hole(17, 3, 187))
-            add(Hole(18, 3, 217))
+    private fun addCourses(holes: Int) {
+        for (i in 1..holes) {
+            with(courseListCreateCourse) {
+                add(Hole(i, 3, 63))
+            }
         }
+    }
+
+    private fun addCourse(index: Int) {
+        courseListCreateCourse.add(Hole(index, 3, 50))
     }
 }

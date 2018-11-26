@@ -13,6 +13,8 @@ import nks.griplockiot.util.Converters
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getCourseDAO(): CourseDAO
 
+    // TODO: Change running Room on UI Thread to other thread
+
     companion object {
         private var INSTANCE: AppDatabase? = null
         fun getInstance(context: Context): AppDatabase {
