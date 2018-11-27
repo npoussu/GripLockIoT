@@ -16,4 +16,6 @@
     <string name="length">Length:</string>
     <string name="hello_world">Hello world</string>
     <string name="course">Course:</string>
+    <string name="add_course">Add course</string>
+    <string name="query_db">Query DB</string>
 </resources>

@@ -3,14 +3,10 @@
 
     <item
         android:id="@+id/menuAddCourse"
-        android:title="Add course" />
+        android:title="@string/add_course" />
 
     <item
         android:id="@+id/queryDB"
-        android:title="Query DB" />
-
-    <item
-        android:id="@+id/selectDB"
-        android:title="Select DB" />
+        android:title="@string/query_db" />
 
 </menu>

@@ -3,18 +3,23 @@ package nks.griplockiot.createcourse
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_create_course.*
 import nks.griplockiot.R
 import nks.griplockiot.data.HoleAdapter
+import nks.griplockiot.database.AppDatabase
+import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
+import kotlin.concurrent.thread
 
 class CreateCourseFragment : Fragment() {
-    private val courseListCreateCourse: ArrayList<Hole> = ArrayList()
+
+    private lateinit var list: List<Course>
+    lateinit var course: Course
+
+    private var courseListCreateCourse: ArrayList<Hole> = ArrayList()
     private var holeIndex: Int = 18
 
     companion object {
@@ -27,12 +32,15 @@ class CreateCourseFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         addCourses(holeIndex)
 
+        setHasOptionsMenu(true)
+
+        // TODO: Create a number picker for par / length
+
         course_list_create_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
 
         val adapter = HoleAdapter(courseListCreateCourse)
-        course_list_create_course.adapter = adapter
 
-        holes.text = holeIndex.toString()
+        course_list_create_course.adapter = adapter
 
         minusButton.setOnClickListener {
             if (holeIndex > 0) {
@@ -43,12 +51,13 @@ class CreateCourseFragment : Fragment() {
                 // Update adapters last index item
                 adapter.notifyItemRemoved(courseListCreateCourse.size)
             } else {
-                Toast.makeText(context, "Course must contain atleast one hole", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Course must contain at least one hole", Toast.LENGTH_SHORT).show()
             }
         }
 
         plusButton.setOnClickListener {
             if (holeIndex < 36) {
+                //TODO: Make adapter transitions smoother
                 holeIndex++
                 holes.text = holeIndex.toString()
                 addCourse(adapter.itemCount + 1)
@@ -61,8 +70,33 @@ class CreateCourseFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         return inflater.inflate(R.layout.fragment_create_course, container, false)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            // TODO: Change menu icon
+            R.id.menuAddCourse -> {
+                Toast.makeText(context, "You clicked menu add course, inserting to DB", Toast.LENGTH_SHORT).show()
+                thread {
+                    // TODO: Error checking
+                    AppDatabase.getInstance(context!!).getCourseDAO().insert(Course(courseNameEditText.text.toString(), calculateTotalPar(courseListCreateCourse), courseListCreateCourse))
+                }
+            }
+
+            R.id.queryDB -> {
+                thread {
+                    list = AppDatabase.getInstance(context!!).getCourseDAO().getCourses()
+                }
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun addCourses(holes: Int) {
@@ -75,5 +109,15 @@ class CreateCourseFragment : Fragment() {
 
     private fun addCourse(index: Int) {
         courseListCreateCourse.add(Hole(index, 3, 50))
+    }
+
+    private fun calculateTotalPar(holeList: ArrayList<Hole>): Int {
+        val iterator = holeList.listIterator()
+        var parTotal = 0
+
+        for (item in iterator) {
+            parTotal += item.par
+        }
+        return parTotal
     }
 }

@@ -2,42 +2,15 @@ package nks.griplockiot.createcourse
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_create_course.*
 import nks.griplockiot.R
-import nks.griplockiot.database.AppDatabase
-import nks.griplockiot.model.Course
-import nks.griplockiot.model.Hole
-import kotlin.concurrent.thread
 
 class CreateCourseActivity : AppCompatActivity() {
-
-    private lateinit var course: Course
-    private lateinit var list: List<Course>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_course)
         title = "Create a new course!"
-
-        val courseArrayList: ArrayList<Hole> = arrayListOf()
-        courseArrayList.add(Hole(1, 3, 33))
-        courseArrayList.add(Hole(2, 3, 34))
-        courseArrayList.add(Hole(3, 3, 35))
-
-        // Toast.makeText(this, "no db" + courseArrayList.toString(), Toast.LENGTH_SHORT).show()
-        val iterator = courseArrayList.listIterator()
-        var parTotal = 0
-
-        // Todo: Create an iterator util function
-
-        for (item in iterator) {
-            parTotal += item.par
-        }
-
-        course = Course("Murhaniemi", parTotal, courseArrayList)
 
         //TODO: Add a way that plus/minus add/decrements amount of holes
         //TODO: Add a way to change the par values
@@ -49,29 +22,4 @@ class CreateCourseActivity : AppCompatActivity() {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
-            R.id.menuAddCourse -> {
-                Toast.makeText(applicationContext, "You clicked menu add course, inserting to DB", Toast.LENGTH_SHORT).show()
-                thread {
-                    AppDatabase.getInstance(this).getCourseDAO().insert(course)
-                }
-            }
-            R.id.queryDB -> {
-                thread {
-                    list = AppDatabase.getInstance(this).getCourseDAO().getCourses()
-                }
-            }
-            R.id.selectDB -> {
-                Toast.makeText(this, list[0].holes.toString(), Toast.LENGTH_SHORT).show()
-                Toast.makeText(this, list.toString(), Toast.LENGTH_SHORT).show()
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }
