@@ -8,7 +8,9 @@ import android.widget.TextView
 import nks.griplockiot.R
 import nks.griplockiot.model.Course
 
-class CourseAdapter(courseList: ArrayList<Course>, private val onClickListener: (View, Course) -> Unit) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
+class CourseAdapter(courseList: ArrayList<Course>,
+                    private val onClickListener: (View, Course) -> Unit,
+                    private val onLongClickListener: (View, Course) -> Unit) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
     var courseListClass: ArrayList<Course> = courseList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,6 +24,11 @@ class CourseAdapter(courseList: ArrayList<Course>, private val onClickListener: 
         notifyDataSetChanged()
     }
 
+    fun deleteItem(course: Course) {
+        courseListClass.remove(course)
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
         return courseListClass.size
     }
@@ -31,6 +38,10 @@ class CourseAdapter(courseList: ArrayList<Course>, private val onClickListener: 
         val item = courseListClass[position]
         holder.itemView.setOnClickListener { view ->
             onClickListener.invoke(view, item)
+            true
+        }
+        holder.itemView.setOnLongClickListener { view ->
+            onLongClickListener.invoke(view, item)
             true
         }
         holder.name.text = courseListClass[position].name

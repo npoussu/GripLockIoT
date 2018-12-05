@@ -40,6 +40,9 @@ class ViewCourseFragment : Fragment() {
             val intent = Intent(context, ViewCourseActivity::class.java)
             intent.putExtra("course", course as Serializable)
             startActivity(intent)
+        }, onLongClickListener = { view, course ->
+            adapter.deleteItem(course)
+            AppDatabase.getInstance(context!!).getCourseDAO().delete(course)
         })
         course_list_view_course.adapter = adapter
 
