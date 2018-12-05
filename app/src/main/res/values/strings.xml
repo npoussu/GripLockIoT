@@ -18,4 +18,5 @@
     <string name="course">Course:</string>
     <string name="add_course">Add course</string>
     <string name="query_db">Query DB</string>
+    <string name="title_activity_view_course">ViewCourseActivity</string>
 </resources>

@@ -12,7 +12,6 @@ class CreateCourseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_course)
         title = "Create a new course!"
 
-        //TODO: Add a way that plus/minus add/decrements amount of holes
         //TODO: Add a way to change the par values
 
         val fragmentManager = supportFragmentManager

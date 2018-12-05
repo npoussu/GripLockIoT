@@ -8,7 +8,7 @@ import android.widget.TextView
 import nks.griplockiot.R
 import nks.griplockiot.model.Course
 
-class CourseAdapter(val courseList: ArrayList<Course>) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
+class CourseAdapter(private val courseList: ArrayList<Course>, private val onLongClickListener: (View, Course) -> Unit) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.course_list_item, parent, false)
         return ViewHolder(view)
@@ -20,6 +20,11 @@ class CourseAdapter(val courseList: ArrayList<Course>) : RecyclerView.Adapter<Co
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // TODO: Show some yhteenveto of course here, maybe par total yms
+        val item = courseList[position]
+        holder.itemView.setOnLongClickListener { view ->
+            onLongClickListener.invoke(view, item)
+            true
+        }
         holder.name.text = courseList[position].name
         holder.parTotal.text = courseList[position].parTotal.toString()
     }
@@ -27,7 +32,6 @@ class CourseAdapter(val courseList: ArrayList<Course>) : RecyclerView.Adapter<Co
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.findViewById<TextView>(R.id.name)
         val parTotal = itemView.findViewById<TextView>(R.id.parTotal)
-
     }
 }
 

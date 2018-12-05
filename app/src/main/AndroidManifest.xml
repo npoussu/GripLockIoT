@@ -22,6 +22,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".viewscorecards.ViewScoreCardsActivity" />
         <activity android:name=".createcourse.CreateCourseActivity" />
+        <activity
+            android:name=".createcourse.ViewCourseActivity"
+            android:label="@string/title_activity_view_course"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package nks.griplockiot.createcourse
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import nks.griplockiot.R
 import nks.griplockiot.data.CourseAdapter
 import nks.griplockiot.database.AppDatabase
 import nks.griplockiot.model.Course
+import java.io.Serializable
 
 class ViewCourseFragment : Fragment() {
 
@@ -31,8 +33,13 @@ class ViewCourseFragment : Fragment() {
         // TODO: Add total course length
         val arrayList: ArrayList<Course> = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
 
-        val adapter = CourseAdapter(arrayList)
+        val adapter = CourseAdapter(arrayList, onLongClickListener = { view, course ->
+            val intent = Intent(context, ViewCourseActivity::class.java)
+            intent.putExtra("course", course as Serializable)
+            startActivity(intent)
+        })
         course_list_view_course.adapter = adapter
+
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
