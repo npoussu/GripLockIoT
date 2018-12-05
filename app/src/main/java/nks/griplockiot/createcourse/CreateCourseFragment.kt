@@ -38,7 +38,9 @@ class CreateCourseFragment : Fragment() {
 
         course_list_create_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
 
-        val adapter = HoleAdapter(courseListCreateCourse)
+        val adapter = HoleAdapter(courseListCreateCourse, onClickListener = { view, hole ->
+            Toast.makeText(context, "paskaa", Toast.LENGTH_SHORT).show()
+        })
 
         course_list_create_course.adapter = adapter
 
