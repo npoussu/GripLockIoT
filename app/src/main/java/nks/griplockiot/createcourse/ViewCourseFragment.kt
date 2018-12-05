@@ -18,6 +18,9 @@ import java.io.Serializable
 
 class ViewCourseFragment : Fragment() {
 
+    lateinit var adapter: CourseAdapter
+    lateinit var arrayList: ArrayList<Course>
+
     companion object {
         fun newInstance(): ViewCourseFragment {
             return ViewCourseFragment()
@@ -31,9 +34,9 @@ class ViewCourseFragment : Fragment() {
         course_list_view_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
 
         // TODO: Add total course length
-        val arrayList: ArrayList<Course> = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
+        arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
 
-        val adapter = CourseAdapter(arrayList, onLongClickListener = { view, course ->
+        adapter = CourseAdapter(arrayList, onClickListener = { view, course ->
             val intent = Intent(context, ViewCourseActivity::class.java)
             intent.putExtra("course", course as Serializable)
             startActivity(intent)
@@ -52,7 +55,15 @@ class ViewCourseFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    override fun onResume() {
+        super.onResume()
+        arrayList.clear()
+        arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
+        adapter.updateData(arrayList)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_view_course, container, false)
     }
+
 }

@@ -9,7 +9,7 @@ import java.io.Serializable
 data class Course(@ColumnInfo
                   val name: String,
                   @ColumnInfo
-                  val parTotal: Int,
+                  var parTotal: Int,
                   @ColumnInfo
                   val holes: List<Hole>
 

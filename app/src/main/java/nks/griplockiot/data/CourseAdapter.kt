@@ -8,25 +8,33 @@ import android.widget.TextView
 import nks.griplockiot.R
 import nks.griplockiot.model.Course
 
-class CourseAdapter(private val courseList: ArrayList<Course>, private val onLongClickListener: (View, Course) -> Unit) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
+class CourseAdapter(courseList: ArrayList<Course>, private val onClickListener: (View, Course) -> Unit) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
+    var courseListClass: ArrayList<Course> = courseList
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.course_list_item, parent, false)
         return ViewHolder(view)
     }
 
+    fun updateData(courseListNew: ArrayList<Course>) {
+        courseListClass.clear()
+        courseListClass.addAll(courseListNew)
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
-        return courseList.size
+        return courseListClass.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // TODO: Show some yhteenveto of course here, maybe par total yms
-        val item = courseList[position]
-        holder.itemView.setOnLongClickListener { view ->
-            onLongClickListener.invoke(view, item)
+        val item = courseListClass[position]
+        holder.itemView.setOnClickListener { view ->
+            onClickListener.invoke(view, item)
             true
         }
-        holder.name.text = courseList[position].name
-        holder.parTotal.text = courseList[position].parTotal.toString()
+        holder.name.text = courseListClass[position].name
+        holder.parTotal.text = courseListClass[position].parTotal.toString()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

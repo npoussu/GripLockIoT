@@ -18,4 +18,5 @@ interface CourseDAO {
 
     @Query("SELECT * FROM course")
     fun getCourses(): List<Course>
+
 }
