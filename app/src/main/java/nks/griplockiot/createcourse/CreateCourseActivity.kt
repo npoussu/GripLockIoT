@@ -5,7 +5,12 @@ import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_create_course.*
 import nks.griplockiot.R
 
-class CreateCourseActivity : AppCompatActivity() {
+class CreateCourseActivity : AppCompatActivity(), CreateCourseFragment.RefreshInterface {
+
+    override fun refreshArrayList() {
+        val fragment = supportFragmentManager.fragments[1] as ViewCourseFragment
+        fragment.refreshArrayListFragment()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

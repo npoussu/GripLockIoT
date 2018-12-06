@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
 class CoursePagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> CreateCourseFragment()

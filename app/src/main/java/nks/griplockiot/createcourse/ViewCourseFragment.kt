@@ -27,6 +27,12 @@ class ViewCourseFragment : Fragment() {
         }
     }
 
+    fun refreshArrayListFragment() {
+        arrayList.clear()
+        arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
+        adapter.updateData(arrayList)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 

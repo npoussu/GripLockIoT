@@ -2,9 +2,11 @@ package nks.griplockiot.createcourse
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.*
 import android.widget.LinearLayout
+import android.widget.NumberPicker
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_create_course.*
 import nks.griplockiot.R
@@ -12,7 +14,6 @@ import nks.griplockiot.data.HoleAdapter
 import nks.griplockiot.database.AppDatabase
 import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
-import kotlin.concurrent.thread
 
 class CreateCourseFragment : Fragment() {
 
@@ -21,6 +22,10 @@ class CreateCourseFragment : Fragment() {
 
     private var courseListCreateCourse: ArrayList<Hole> = ArrayList()
     private var holeIndex: Int = 18
+
+    interface RefreshInterface {
+        fun refreshArrayList()
+    }
 
     companion object {
         fun newInstance(): CreateCourseFragment {
@@ -39,7 +44,37 @@ class CreateCourseFragment : Fragment() {
         course_list_create_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
 
         val adapter = HoleAdapter(courseListCreateCourse, onClickListener = { view, hole ->
-            Toast.makeText(context, "paskaa", Toast.LENGTH_SHORT).show()
+            val builder = AlertDialog.Builder(context!!)
+
+            val view = layoutInflater.inflate(R.layout.dialog_number_picker, null)
+
+            val numberPickerPar = view.findViewById(R.id.numberPickerPar) as NumberPicker
+            val numberPickerLength = view.findViewById(R.id.numberPickerLength) as NumberPicker
+
+            numberPickerPar.minValue = 3
+            numberPickerPar.maxValue = 5
+            numberPickerPar.wrapSelectorWheel = true
+            numberPickerPar.value = hole.par
+
+            numberPickerLength.minValue = 30
+            numberPickerLength.maxValue = 500
+            numberPickerPar.wrapSelectorWheel = true
+            numberPickerLength.value = hole.length
+
+            builder.setView(view)
+
+            builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+                Toast.makeText(context, "OK clicked, Par: " + numberPickerPar.value.toString() + "Length: " + numberPickerLength.value.toString(), Toast.LENGTH_SHORT).show()
+                hole.par = numberPickerPar.value
+                hole.length = numberPickerLength.value
+                dialog.dismiss()
+                course_list_create_course.adapter?.notifyDataSetChanged()
+            }
+            builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+                dialog.cancel()
+            }
+
+            builder.show()
         })
 
         course_list_create_course.adapter = adapter
@@ -85,18 +120,11 @@ class CreateCourseFragment : Fragment() {
             // TODO: Change menu icon
             R.id.menuAddCourse -> {
                 Toast.makeText(context, "You clicked menu add course, inserting to DB", Toast.LENGTH_SHORT).show()
-                thread {
-                    // TODO: Error checking
-                    AppDatabase.getInstance(context!!).getCourseDAO().insert(Course(courseNameEditText.text.toString(), calculateTotalPar(courseListCreateCourse), courseListCreateCourse))
-                }
-            }
 
-            R.id.queryDB -> {
-                thread {
-                    list = AppDatabase.getInstance(context!!).getCourseDAO().getCourses()
-                }
+                // TODO: Error checking
+                AppDatabase.getInstance(context!!).getCourseDAO().insert(Course(courseNameEditText.text.toString(), calculateTotalPar(courseListCreateCourse), courseListCreateCourse))
+                (activity as CreateCourseActivity).refreshArrayList()
             }
-
         }
         return super.onOptionsItemSelected(item)
     }
