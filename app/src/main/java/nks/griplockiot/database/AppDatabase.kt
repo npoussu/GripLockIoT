@@ -9,17 +9,13 @@ import android.support.annotation.WorkerThread
 import nks.griplockiot.model.Course
 import nks.griplockiot.util.Converters
 
-@Database(entities = [Course::class], version = 3, exportSchema = false)
+@Database(entities = [Course::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getCourseDAO(): CourseDAO
 
-    // TODO: Change running Room on UI Thread to other thread
-
     companion object {
-
         private var INSTANCE: AppDatabase? = null
-
         // Call getInstance only on worker threads
         @WorkerThread
         fun getInstance(context: Context): AppDatabase {
@@ -34,5 +30,4 @@ abstract class AppDatabase : RoomDatabase() {
             return INSTANCE as AppDatabase
         }
     }
-
 }

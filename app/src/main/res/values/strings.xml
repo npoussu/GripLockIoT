@@ -21,4 +21,6 @@
     <string name="length">Length:</string>
     <string name="lengthHeader">Length: </string>
     <string name="parTotalHeader">Par:</string>
+    <string name="length_number_picker">Length</string>
+    <string name="par_number_picker">Par</string>
 </resources>

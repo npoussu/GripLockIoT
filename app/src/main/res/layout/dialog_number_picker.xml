@@ -2,6 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
+    android:baselineAligned="true"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -17,7 +18,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:text="Par"
+            android:text="@string/par_number_picker"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -42,7 +43,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:text="Length"
+            android:text="@string/length_number_picker"
             android:textSize="20sp"
             android:textStyle="bold" />
 

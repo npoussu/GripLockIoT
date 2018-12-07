@@ -10,6 +10,7 @@ import android.widget.NumberPicker
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_create_course.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.runBlocking
 import nks.griplockiot.R
@@ -20,23 +21,17 @@ import nks.griplockiot.model.Hole
 
 class CreateCourseFragment : Fragment(), CoroutineScope {
 
-    private lateinit var list: List<Course>
     lateinit var course: Course
 
     private var courseListCreateCourse: ArrayList<Hole> = ArrayList()
     private var holeIndex: Int = 18
 
+    @ObsoleteCoroutinesApi
     override
     val coroutineContext = newFixedThreadPoolContext(2, "bg")
 
     interface RefreshInterface {
         fun refreshArrayList()
-    }
-
-    companion object {
-        fun newInstance(): CreateCourseFragment {
-            return CreateCourseFragment()
-        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -47,10 +42,10 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
 
         course_list_create_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
 
-        val adapter = HoleAdapter(courseListCreateCourse, onClickListener = { view, hole ->
+        val adapter = HoleAdapter(courseListCreateCourse, onClickListener = { _, hole ->
             val builder = AlertDialog.Builder(context!!)
 
-            val view = layoutInflater.inflate(R.layout.dialog_number_picker, null)
+            val view = View.inflate(context, R.layout.dialog_number_picker, null)
 
             val numberPickerPar = view.findViewById(R.id.numberPickerPar) as NumberPicker
             val numberPickerLength = view.findViewById(R.id.numberPickerLength) as NumberPicker
@@ -67,13 +62,13 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
 
             builder.setView(view)
 
-            builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+            builder.setPositiveButton(android.R.string.ok) { dialog, _ ->
                 hole.par = numberPickerPar.value
                 hole.length = numberPickerLength.value
                 dialog.dismiss()
                 course_list_create_course.adapter?.notifyDataSetChanged()
             }
-            builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+            builder.setNegativeButton(android.R.string.cancel) { dialog, _ ->
                 dialog.cancel()
             }
 
@@ -117,6 +112,7 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
         inflater?.inflate(R.menu.menu, menu)
     }
 
+    @ObsoleteCoroutinesApi
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menuAddCourse -> {

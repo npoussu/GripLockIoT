@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.fragment_view_course.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.runBlocking
 import nks.griplockiot.R
@@ -19,19 +20,14 @@ import nks.griplockiot.database.AppDatabase
 import nks.griplockiot.model.Course
 import java.io.Serializable
 
+@ObsoleteCoroutinesApi
 class ViewCourseFragment : Fragment(), CoroutineScope {
 
-    lateinit var adapter: CourseAdapter
-    lateinit var arrayList: ArrayList<Course>
+    private lateinit var adapter: CourseAdapter
+    private lateinit var arrayList: ArrayList<Course>
 
     override
     val coroutineContext = newFixedThreadPoolContext(2, "bg")
-
-    companion object {
-        fun newInstance(): ViewCourseFragment {
-            return ViewCourseFragment()
-        }
-    }
 
     fun refreshArrayListFragment() {
         runBlocking(coroutineContext) {
@@ -47,11 +43,11 @@ class ViewCourseFragment : Fragment(), CoroutineScope {
         course_list_view_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         runBlocking(coroutineContext) {
             arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
-            adapter = CourseAdapter(arrayList, onClickListener = { view, course ->
+            adapter = CourseAdapter(arrayList, onClickListener = { _, course ->
                 val intent = Intent(context, ViewCourseActivity::class.java)
                 intent.putExtra("course", course as Serializable)
                 startActivity(intent)
-            }, onLongClickListener = { view, course ->
+            }, onLongClickListener = { _, course ->
                 adapter.deleteItem(course)
                 AppDatabase.getInstance(context!!).getCourseDAO().delete(course)
             })

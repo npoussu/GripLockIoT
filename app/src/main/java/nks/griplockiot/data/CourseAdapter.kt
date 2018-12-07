@@ -11,7 +11,7 @@ import nks.griplockiot.model.Course
 class CourseAdapter(courseList: ArrayList<Course>,
                     private val onClickListener: (View, Course) -> Unit,
                     private val onLongClickListener: (View, Course) -> Unit) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
-    var courseListClass: ArrayList<Course> = courseList
+    private var courseListClass: ArrayList<Course> = courseList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.course_list_item, parent, false)
@@ -37,17 +37,16 @@ class CourseAdapter(courseList: ArrayList<Course>,
         val item = courseListClass[position]
         holder.itemView.setOnClickListener { view ->
             onClickListener.invoke(view, item)
-            true
         }
         holder.itemView.setOnLongClickListener { view ->
             onLongClickListener.invoke(view, item)
             true
         }
-        holder.name.text = courseListClass[position].name
+        holder.name?.text = courseListClass[position].name
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name = itemView.findViewById<TextView>(R.id.name)
+        val name = itemView.findViewById<TextView?>(R.id.name)
     }
 }
 

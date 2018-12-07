@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.NumberPicker
 import kotlinx.android.synthetic.main.activity_view_course.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.runBlocking
 import nks.griplockiot.R
@@ -20,6 +22,7 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
 
     lateinit var course: Course
 
+    @ObsoleteCoroutinesApi
     override
     val coroutineContext = newFixedThreadPoolContext(2, "bg")
 
@@ -27,6 +30,7 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_course)
 
+        @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         course = intent.extras["course"] as Course
 
         val parTotalHeader = resources.getString(R.string.parTotalHeader)
@@ -37,10 +41,11 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
 
         course_list_view_course_activity.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
-        val adapter = HoleAdapter(course.holes, onClickListener = { view, hole ->
+        val adapter = HoleAdapter(course.holes) { _, hole ->
             val builder = AlertDialog.Builder(this)
 
-            val view = layoutInflater.inflate(R.layout.dialog_number_picker, null)
+            val nullParent: ViewGroup? = null
+            val view = layoutInflater.inflate(R.layout.dialog_number_picker, nullParent)
 
             val numberPickerPar = view.findViewById(R.id.numberPickerPar) as NumberPicker
             val numberPickerLength = view.findViewById(R.id.numberPickerLength) as NumberPicker
@@ -57,23 +62,24 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
 
             builder.setView(view)
 
-            builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+            builder.setPositiveButton(android.R.string.ok) { dialog, _ ->
                 hole.par = numberPickerPar.value
                 hole.length = numberPickerLength.value
                 dialog.dismiss()
                 course_list_view_course_activity.adapter?.notifyDataSetChanged()
             }
-            builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+            builder.setNegativeButton(android.R.string.cancel) { dialog, _ ->
                 dialog.cancel()
             }
 
             builder.show()
-        })
+        }
 
         course_list_view_course_activity.adapter = adapter
 
     }
 
+    @ObsoleteCoroutinesApi
     override fun onBackPressed() {
         course.parTotal = calculateTotalPar(course.holes)
         course.lengthTotal = calculateTotalLength(course.holes)

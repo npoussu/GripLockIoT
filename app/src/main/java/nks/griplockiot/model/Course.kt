@@ -17,5 +17,5 @@ data class Course(@ColumnInfo
 
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
-    var ID: Int? = null
+    var id: Int? = null
 }
