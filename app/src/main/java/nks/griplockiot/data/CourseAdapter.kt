@@ -45,12 +45,10 @@ class CourseAdapter(courseList: ArrayList<Course>,
             true
         }
         holder.name.text = courseListClass[position].name
-        holder.parTotal.text = courseListClass[position].parTotal.toString()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.findViewById<TextView>(R.id.name)
-        val parTotal = itemView.findViewById<TextView>(R.id.parTotal)
     }
 }
 

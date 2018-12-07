@@ -25,7 +25,7 @@ class HoleAdapter(val holeList: List<Hole>, private val onClickListener: (View, 
         holder.itemView.setOnClickListener { view: View ->
             onClickListener.invoke(view, item)
         }
-        holder.length.text = holeList[position].length.toString()
+        holder.length.text = holeList[position].length.toString() + "m"
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

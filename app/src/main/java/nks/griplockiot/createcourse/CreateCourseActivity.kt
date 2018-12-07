@@ -15,9 +15,8 @@ class CreateCourseActivity : AppCompatActivity(), CreateCourseFragment.RefreshIn
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_course)
-        title = "Create a new course!"
 
-        //TODO: Add a way to change the par values
+        title = "Create a course!"
 
         val fragmentManager = supportFragmentManager
         val fragmentAdapter = CoursePagerAdapter(fragmentManager)

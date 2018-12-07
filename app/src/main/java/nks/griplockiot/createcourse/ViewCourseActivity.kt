@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.LinearLayout
 import android.widget.NumberPicker
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_view_course.*
 import nks.griplockiot.R
 import nks.griplockiot.data.HoleAdapter
@@ -24,7 +23,11 @@ class ViewCourseActivity : AppCompatActivity() {
 
         course = intent.extras["course"] as Course
 
+        val parTotalHeader = resources.getString(R.string.parTotalHeader)
+        val lengthTotalHeader = resources.getString(R.string.lengthHeader)
+
         toolbar_activity_view_course.title = "Course: " + course.name
+        toolbar_activity_view_course.subtitle = parTotalHeader + " " + course.parTotal + " | " + lengthTotalHeader + " " + course.lengthTotal + " " + "m"
 
         course_list_view_course_activity.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
@@ -49,7 +52,6 @@ class ViewCourseActivity : AppCompatActivity() {
             builder.setView(view)
 
             builder.setPositiveButton(android.R.string.ok) { dialog, which ->
-                Toast.makeText(applicationContext, "OK clicked, Par: " + numberPickerPar.value.toString() + "Length: " + numberPickerLength.value.toString(), Toast.LENGTH_SHORT).show()
                 hole.par = numberPickerPar.value
                 hole.length = numberPickerLength.value
                 dialog.dismiss()
@@ -69,6 +71,7 @@ class ViewCourseActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         course.parTotal = calculateTotalPar(course.holes)
+        course.lengthTotal = calculateTotalLength(course.holes)
         AppDatabase.getInstance(applicationContext).getCourseDAO().update(course)
     }
 
@@ -80,6 +83,16 @@ class ViewCourseActivity : AppCompatActivity() {
             parTotal += item.par
         }
         return parTotal
+    }
+
+    private fun calculateTotalLength(holeList: List<Hole>): Int {
+        val iterator = holeList.listIterator()
+        var lengthTotal = 0
+
+        for (item in iterator) {
+            lengthTotal += item.length
+        }
+        return lengthTotal
     }
 
 }

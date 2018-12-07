@@ -13,10 +13,12 @@
     <string name="plus">+</string>
     <string name="hole">Hole:</string>
     <string name="par">Par:</string>
-    <string name="length">Length:</string>
     <string name="hello_world">Hello world</string>
     <string name="course">Course:</string>
     <string name="add_course">Add course</string>
     <string name="query_db">Query DB</string>
     <string name="title_activity_view_course">ViewCourseActivity</string>
+    <string name="length">Length:</string>
+    <string name="lengthHeader">Length: </string>
+    <string name="parTotalHeader">Par:</string>
 </resources>

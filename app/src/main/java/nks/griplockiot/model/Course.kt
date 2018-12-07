@@ -11,6 +11,8 @@ data class Course(@ColumnInfo
                   @ColumnInfo
                   var parTotal: Int,
                   @ColumnInfo
+                  var lengthTotal: Int,
+                  @ColumnInfo
                   val holes: List<Hole>
 
 ) : Serializable {

@@ -39,8 +39,6 @@ class CreateCourseFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        // TODO: Create a number picker for par / length
-
         course_list_create_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
 
         val adapter = HoleAdapter(courseListCreateCourse, onClickListener = { view, hole ->
@@ -64,7 +62,6 @@ class CreateCourseFragment : Fragment() {
             builder.setView(view)
 
             builder.setPositiveButton(android.R.string.ok) { dialog, which ->
-                Toast.makeText(context, "OK clicked, Par: " + numberPickerPar.value.toString() + "Length: " + numberPickerLength.value.toString(), Toast.LENGTH_SHORT).show()
                 hole.par = numberPickerPar.value
                 hole.length = numberPickerLength.value
                 dialog.dismiss()
@@ -117,12 +114,11 @@ class CreateCourseFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            // TODO: Change menu icon
             R.id.menuAddCourse -> {
-                Toast.makeText(context, "You clicked menu add course, inserting to DB", Toast.LENGTH_SHORT).show()
-
-                // TODO: Error checking
-                AppDatabase.getInstance(context!!).getCourseDAO().insert(Course(courseNameEditText.text.toString(), calculateTotalPar(courseListCreateCourse), courseListCreateCourse))
+                AppDatabase.getInstance(context!!).getCourseDAO().insert(Course(courseNameEditText.text.toString(),
+                        calculateTotalPar(courseListCreateCourse),
+                        calculateTotalLength(courseListCreateCourse),
+                        courseListCreateCourse))
                 (activity as CreateCourseActivity).refreshArrayList()
             }
         }
@@ -132,13 +128,13 @@ class CreateCourseFragment : Fragment() {
     private fun addCourses(holes: Int) {
         for (i in 1..holes) {
             with(courseListCreateCourse) {
-                add(Hole(i, 3, 63))
+                add(Hole(i, 3, 100))
             }
         }
     }
 
     private fun addCourse(index: Int) {
-        courseListCreateCourse.add(Hole(index, 3, 50))
+        courseListCreateCourse.add(Hole(index, 3, 100))
     }
 
     private fun calculateTotalPar(holeList: ArrayList<Hole>): Int {
@@ -149,5 +145,15 @@ class CreateCourseFragment : Fragment() {
             parTotal += item.par
         }
         return parTotal
+    }
+
+    private fun calculateTotalLength(holeList: List<Hole>): Int {
+        val iterator = holeList.listIterator()
+        var lengthTotal = 0
+
+        for (item in iterator) {
+            lengthTotal += item.length
+        }
+        return lengthTotal
     }
 }
