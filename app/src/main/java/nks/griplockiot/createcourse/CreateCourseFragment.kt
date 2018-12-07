@@ -91,12 +91,11 @@ class CreateCourseFragment : Fragment() {
 
         plusButton.setOnClickListener {
             if (holeIndex < 36) {
-                //TODO: Make adapter transitions smoother
                 holeIndex++
                 holes.text = holeIndex.toString()
                 addCourse(adapter.itemCount + 1)
-                course_list_create_course.scrollToPosition(courseListCreateCourse.size - 1)
                 adapter.notifyDataSetChanged()
+                course_list_create_course.smoothScrollToPosition(courseListCreateCourse.size - 1)
             } else {
                 Toast.makeText(context, "Course must contain a maximum of 36 holes", Toast.LENGTH_SHORT).show()
             }

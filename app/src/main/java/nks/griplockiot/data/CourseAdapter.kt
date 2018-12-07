@@ -34,7 +34,6 @@ class CourseAdapter(courseList: ArrayList<Course>,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // TODO: Show some yhteenveto of course here, maybe par total yms
         val item = courseListClass[position]
         holder.itemView.setOnClickListener { view ->
             onClickListener.invoke(view, item)

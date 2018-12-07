@@ -36,10 +36,8 @@ class ViewCourseFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // TODO: Show course yhteenveto and show details on click, long click to delete a course
         course_list_view_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
 
-        // TODO: Add total course length
         arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
 
         adapter = CourseAdapter(arrayList, onClickListener = { view, course ->
