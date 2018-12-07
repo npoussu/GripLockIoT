@@ -7,15 +7,21 @@ import android.support.v7.widget.LinearLayoutManager
 import android.widget.LinearLayout
 import android.widget.NumberPicker
 import kotlinx.android.synthetic.main.activity_view_course.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.newFixedThreadPoolContext
+import kotlinx.coroutines.runBlocking
 import nks.griplockiot.R
 import nks.griplockiot.data.HoleAdapter
 import nks.griplockiot.database.AppDatabase
 import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
 
-class ViewCourseActivity : AppCompatActivity() {
+class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
 
     lateinit var course: Course
+
+    override
+    val coroutineContext = newFixedThreadPoolContext(2, "bg")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,30 +75,34 @@ class ViewCourseActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         course.parTotal = calculateTotalPar(course.holes)
         course.lengthTotal = calculateTotalLength(course.holes)
-        AppDatabase.getInstance(applicationContext).getCourseDAO().update(course)
-    }
-
-    private fun calculateTotalPar(holeList: List<Hole>): Int {
-        val iterator = holeList.listIterator()
-        var parTotal = 0
-
-        for (item in iterator) {
-            parTotal += item.par
+        runBlocking(coroutineContext) {
+            AppDatabase.getInstance(applicationContext).getCourseDAO().update(course)
         }
-        return parTotal
-    }
-
-    private fun calculateTotalLength(holeList: List<Hole>): Int {
-        val iterator = holeList.listIterator()
-        var lengthTotal = 0
-
-        for (item in iterator) {
-            lengthTotal += item.length
-        }
-        return lengthTotal
+        super.onBackPressed()
     }
 
 }
+
+private fun calculateTotalPar(holeList: List<Hole>): Int {
+    val iterator = holeList.listIterator()
+    var parTotal = 0
+
+    for (item in iterator) {
+        parTotal += item.par
+    }
+    return parTotal
+}
+
+private fun calculateTotalLength(holeList: List<Hole>): Int {
+    val iterator = holeList.listIterator()
+    var lengthTotal = 0
+
+    for (item in iterator) {
+        lengthTotal += item.length
+    }
+    return lengthTotal
+}
+
+

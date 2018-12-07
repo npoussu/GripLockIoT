@@ -9,19 +9,25 @@ import android.widget.LinearLayout
 import android.widget.NumberPicker
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_create_course.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.newFixedThreadPoolContext
+import kotlinx.coroutines.runBlocking
 import nks.griplockiot.R
 import nks.griplockiot.data.HoleAdapter
 import nks.griplockiot.database.AppDatabase
 import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
 
-class CreateCourseFragment : Fragment() {
+class CreateCourseFragment : Fragment(), CoroutineScope {
 
     private lateinit var list: List<Course>
     lateinit var course: Course
 
     private var courseListCreateCourse: ArrayList<Hole> = ArrayList()
     private var holeIndex: Int = 18
+
+    override
+    val coroutineContext = newFixedThreadPoolContext(2, "bg")
 
     interface RefreshInterface {
         fun refreshArrayList()
@@ -114,10 +120,12 @@ class CreateCourseFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menuAddCourse -> {
-                AppDatabase.getInstance(context!!).getCourseDAO().insert(Course(courseNameEditText.text.toString(),
-                        calculateTotalPar(courseListCreateCourse),
-                        calculateTotalLength(courseListCreateCourse),
-                        courseListCreateCourse))
+                runBlocking(coroutineContext) {
+                    AppDatabase.getInstance(context!!).getCourseDAO().insert(Course(courseNameEditText.text.toString(),
+                            calculateTotalPar(courseListCreateCourse),
+                            calculateTotalLength(courseListCreateCourse),
+                            courseListCreateCourse))
+                }
                 (activity as CreateCourseActivity).refreshArrayList()
             }
         }

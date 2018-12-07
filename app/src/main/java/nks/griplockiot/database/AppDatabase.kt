@@ -5,6 +5,7 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
+import android.support.annotation.WorkerThread
 import nks.griplockiot.model.Course
 import nks.griplockiot.util.Converters
 
@@ -16,14 +17,17 @@ abstract class AppDatabase : RoomDatabase() {
     // TODO: Change running Room on UI Thread to other thread
 
     companion object {
+
         private var INSTANCE: AppDatabase? = null
+
+        // Call getInstance only on worker threads
+        @WorkerThread
         fun getInstance(context: Context): AppDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
                         context,
                         AppDatabase::class.java,
                         "course")
-                        .allowMainThreadQueries()
                         .fallbackToDestructiveMigration()
                         .build()
             }
