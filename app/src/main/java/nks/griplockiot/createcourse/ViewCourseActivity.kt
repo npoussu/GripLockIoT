@@ -1,9 +1,13 @@
 package nks.griplockiot.createcourse
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.NumberPicker
@@ -13,10 +17,12 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.runBlocking
 import nks.griplockiot.R
+import nks.griplockiot.createcourse.googlemaps.MapsActivity
 import nks.griplockiot.data.HoleAdapter
 import nks.griplockiot.database.AppDatabase
 import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
+import java.io.Serializable
 
 class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
 
@@ -36,8 +42,9 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
         val parTotalHeader = resources.getString(R.string.parTotalHeader)
         val lengthTotalHeader = resources.getString(R.string.lengthHeader)
 
-        toolbar_activity_view_course.title = "Course: " + course.name
-        toolbar_activity_view_course.subtitle = parTotalHeader + " " + course.parTotal + " | " + lengthTotalHeader + " " + course.lengthTotal + " " + "m"
+        setSupportActionBar(toolbar_activity_view_course)
+        supportActionBar?.title = "Course: " + course.name
+        supportActionBar?.subtitle = parTotalHeader + " " + course.parTotal + " | " + lengthTotalHeader + " " + course.lengthTotal + " " + "m"
 
         course_list_view_course_activity.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
@@ -89,26 +96,43 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
         super.onBackPressed()
     }
 
-}
-
-private fun calculateTotalPar(holeList: List<Hole>): Int {
-    val iterator = holeList.listIterator()
-    var parTotal = 0
-
-    for (item in iterator) {
-        parTotal += item.par
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu_maps, menu)
+        return super.onCreateOptionsMenu(menu)
     }
-    return parTotal
-}
 
-private fun calculateTotalLength(holeList: List<Hole>): Int {
-    val iterator = holeList.listIterator()
-    var lengthTotal = 0
-
-    for (item in iterator) {
-        lengthTotal += item.length
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.openMapsActivity -> {
+                val intent = Intent(applicationContext, MapsActivity::class.java)
+                intent.putExtra("course", course as Serializable)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
-    return lengthTotal
+
+
+    private fun calculateTotalPar(holeList: List<Hole>): Int {
+        val iterator = holeList.listIterator()
+        var parTotal = 0
+
+        for (item in iterator) {
+            parTotal += item.par
+        }
+        return parTotal
+    }
+
+    private fun calculateTotalLength(holeList: List<Hole>): Int {
+        val iterator = holeList.listIterator()
+        var lengthTotal = 0
+
+        for (item in iterator) {
+            lengthTotal += item.length
+        }
+        return lengthTotal
+    }
 }
 
 

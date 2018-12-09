@@ -13,8 +13,13 @@ data class Course(@ColumnInfo
                   @ColumnInfo
                   var lengthTotal: Int,
                   @ColumnInfo
-                  val holes: List<Hole>
-
+                  val holes: List<Hole>,
+        // Latitude & Longitude are optional (nullable essentially), therefore marked as Optional type (in Kotlin
+        // data types are non-nullable by default
+                  @ColumnInfo
+                  var latitude: Double?,
+                  @ColumnInfo
+                  var longitude: Double?
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

@@ -120,7 +120,7 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
                     AppDatabase.getInstance(context!!).getCourseDAO().insert(Course(courseNameEditText.text.toString(),
                             calculateTotalPar(courseListCreateCourse),
                             calculateTotalLength(courseListCreateCourse),
-                            courseListCreateCourse))
+                            courseListCreateCourse, null, null))
                 }
                 (activity as CreateCourseActivity).refreshArrayList()
             }
