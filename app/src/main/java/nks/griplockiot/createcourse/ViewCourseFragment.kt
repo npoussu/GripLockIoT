@@ -3,6 +3,7 @@ package nks.griplockiot.createcourse
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.Menu
@@ -44,17 +45,29 @@ class ViewCourseFragment : Fragment(), CoroutineScope {
         runBlocking(coroutineContext) {
             arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
         }
-            adapter = CourseAdapter(arrayList, onClickListener = { _, course ->
-                val intent = Intent(context, ViewCourseActivity::class.java)
-                intent.putExtra("course", course as Serializable)
-                startActivity(intent)
-            }, onLongClickListener = { _, course ->
-                adapter.deleteItem(course)
-                runBlocking(coroutineContext) {
-                    AppDatabase.getInstance(context!!).getCourseDAO().delete(course)
+        adapter = CourseAdapter(arrayList, onClickListener = { _, course ->
+            val intent = Intent(context, ViewCourseActivity::class.java)
+            intent.putExtra("course", course as Serializable)
+            startActivity(intent)
+        }, onLongClickListener = { _, course ->
+            val builder = AlertDialog.Builder(context)
+            with(builder) {
+                setTitle("Delete course?")
+                setPositiveButton("yes") { dialog, _ ->
+                    adapter.deleteItem(course)
+                    runBlocking(coroutineContext) {
+                        AppDatabase.getInstance(context).getCourseDAO().delete(course)
+                    }
+                    dialog.dismiss()
                 }
-            })
-            course_list_view_course.adapter = adapter
+                setNegativeButton("no") { dialog, _ ->
+                    dialog.cancel()
+                }
+                show()
+            }
+
+        })
+        course_list_view_course.adapter = adapter
 
     }
 
