@@ -43,16 +43,19 @@ class ViewCourseFragment : Fragment(), CoroutineScope {
         course_list_view_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         runBlocking(coroutineContext) {
             arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
+        }
             adapter = CourseAdapter(arrayList, onClickListener = { _, course ->
                 val intent = Intent(context, ViewCourseActivity::class.java)
                 intent.putExtra("course", course as Serializable)
                 startActivity(intent)
             }, onLongClickListener = { _, course ->
                 adapter.deleteItem(course)
-                AppDatabase.getInstance(context!!).getCourseDAO().delete(course)
+                runBlocking(coroutineContext) {
+                    AppDatabase.getInstance(context!!).getCourseDAO().delete(course)
+                }
             })
             course_list_view_course.adapter = adapter
-        }
+
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
