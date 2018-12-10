@@ -67,11 +67,7 @@ class ViewCourseFragment : Fragment(), CoroutineScope {
 
     override fun onResume() {
         super.onResume()
-        runBlocking(coroutineContext) {
-            arrayList.clear()
-            arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
-        }
-        adapter.updateData(arrayList)
+        refreshArrayListFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -88,9 +88,9 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
 
     @ObsoleteCoroutinesApi
     override fun onBackPressed() {
-        course.parTotal = calculateTotalPar(course.holes)
-        course.lengthTotal = calculateTotalLength(course.holes)
         runBlocking(coroutineContext) {
+            course.parTotal = calculateTotalPar(course.holes)
+            course.lengthTotal = calculateTotalLength(course.holes)
             AppDatabase.getInstance(applicationContext).getCourseDAO().update(course)
         }
         super.onBackPressed()
@@ -105,6 +105,11 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.openMapsActivity -> {
+                runBlocking(coroutineContext) {
+                    course.parTotal = calculateTotalPar(course.holes)
+                    course.lengthTotal = calculateTotalLength(course.holes)
+                    AppDatabase.getInstance(applicationContext).getCourseDAO().update(course)
+                }
                 val intent = Intent(applicationContext, MapsActivity::class.java)
                 intent.putExtra("course", course as Serializable)
                 startActivity(intent)
@@ -113,6 +118,12 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        runBlocking(coroutineContext) {
+            course = AppDatabase.getInstance(applicationContext).getCourseDAO().getCourse(course.id as Int)
+        }
+    }
 
     private fun calculateTotalPar(holeList: List<Hole>): Int {
         val iterator = holeList.listIterator()

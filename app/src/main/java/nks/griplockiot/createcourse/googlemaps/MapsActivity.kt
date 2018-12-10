@@ -1,7 +1,6 @@
 package nks.griplockiot.createcourse.googlemaps
 
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
@@ -26,12 +25,13 @@ import nks.griplockiot.model.Course
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
+@ObsoleteCoroutinesApi
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener, CoroutineScope {
 
     // Reference: The following code is heavily inspired by the tutorial below
     // https://www.raywenderlich.com/230-introduction-to-google-maps-api-for-android-with-kotlin
 
-    lateinit var mLocation: LatLng
+    private lateinit var mLocation: LatLng
 
     override fun onMapClick(position: LatLng?) {
         mMap.clear()
@@ -51,7 +51,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onMarkerClick(p0: Marker?) = false
 
     private lateinit var mMap: GoogleMap
-    private lateinit var lastLocation: Location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var course: Course
 
@@ -69,13 +68,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         mMap.isMyLocationEnabled = true
 
-        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
-            // Got last known location. In some rare situations this can be null.
-            if (location != null) {
-                lastLocation = location
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
-            }
+        if (course.latitude != null && course.longitude != null) {
+            val currentLatLng = LatLng(course.latitude as Double, course.longitude as Double)
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+            val markerOptions = MarkerOptions().position(currentLatLng)
+            val df = DecimalFormat("#.######")
+            df.roundingMode = RoundingMode.CEILING
+            markerOptions.title("Latitude: " + df.format(currentLatLng.latitude) + " Longitude: " + df.format(currentLatLng.longitude))
+            mMap.addMarker(markerOptions)
         }
 
         mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
@@ -86,7 +86,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         setContentView(R.layout.activity_maps)
 
         @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-        course = intent.extras["course"] as Course
+        runBlocking(coroutineContext) {
+            course = intent.extras["course"] as Course
+            course = AppDatabase.getInstance(applicationContext).getCourseDAO().getCourse(course.id as Int)
+        }
+
+        title = "Course: " + "'" + course.name + "'" + " on map"
+
+        // If the user hasn't selected a location before, prompt user to do so
+        if (course.latitude == null || course.longitude == null) {
+            Toast.makeText(applicationContext, "Select the course location on map", Toast.LENGTH_LONG).show()
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -100,7 +110,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 course.longitude = mLocation.longitude
                 AppDatabase.getInstance(applicationContext).getCourseDAO().update(course)
             }
-            Toast.makeText(applicationContext, "Location added! Latitude: " + course.latitude + "Longitude: " + course.longitude, Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Location added! Latitude: " + course.latitude + " Longitude: " + course.longitude, Toast.LENGTH_SHORT).show()
         }
     }
 

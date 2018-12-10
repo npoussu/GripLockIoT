@@ -19,4 +19,7 @@ interface CourseDAO {
     @Query("SELECT * FROM course")
     fun getCourses(): List<Course>
 
+    @Query("SELECT * FROM course WHERE id = :id")
+    fun getCourse(id: Int): Course
+
 }
