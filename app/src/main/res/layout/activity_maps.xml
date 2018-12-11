@@ -18,6 +18,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:text="Add" />
+        android:text="@string/add" />
+
+    <Button
+        android:id="@+id/switchMapType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/addLocation"
+        android:text="@string/switchMapType" />
 
 </RelativeLayout>

@@ -5,13 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.newFixedThreadPoolContext
 import nks.griplockiot.R
 import nks.griplockiot.model.Course
 
 class CourseAdapter(courseList: ArrayList<Course>,
                     private val onClickListener: (View, Course) -> Unit,
-                    private val onLongClickListener: (View, Course) -> Unit) : RecyclerView.Adapter<CourseAdapter.ViewHolder>() {
+                    private val onLongClickListener: (View, Course) -> Unit) : RecyclerView.Adapter<CourseAdapter.ViewHolder>(), CoroutineScope {
     private var courseListClass: ArrayList<Course> = courseList
+
+    @ObsoleteCoroutinesApi
+    override
+    val coroutineContext = newFixedThreadPoolContext(2, "bg")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.course_list_item, parent, false)
@@ -41,6 +48,7 @@ class CourseAdapter(courseList: ArrayList<Course>,
         holder.itemView.setOnLongClickListener { view ->
             onLongClickListener.invoke(view, item)
             true
+
         }
         holder.name?.text = courseListClass[position].name
     }

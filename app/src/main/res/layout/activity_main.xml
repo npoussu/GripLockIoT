@@ -37,6 +37,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="@string/exit_the_game" />
+        android:text="@string/exit_the_application" />
 
 </LinearLayout>

@@ -24,6 +24,7 @@ import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
 import java.io.Serializable
 
+@ObsoleteCoroutinesApi
 class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
 
     lateinit var course: Course

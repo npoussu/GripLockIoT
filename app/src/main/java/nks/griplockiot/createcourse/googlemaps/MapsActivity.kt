@@ -56,6 +56,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        private const val MAP_TYPE_SATELLITE = GoogleMap.MAP_TYPE_SATELLITE
+        private const val MAP_TYPE_NORMAL = GoogleMap.MAP_TYPE_NORMAL
     }
 
     private fun setUpMap() {
@@ -78,7 +80,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             mMap.addMarker(markerOptions)
         }
 
-        mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+        mMap.mapType = MAP_TYPE_SATELLITE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,6 +113,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 AppDatabase.getInstance(applicationContext).getCourseDAO().update(course)
             }
             Toast.makeText(applicationContext, "Location added! Latitude: " + course.latitude + " Longitude: " + course.longitude, Toast.LENGTH_SHORT).show()
+        }
+
+        switchMapType.setOnClickListener {
+            if (mMap.mapType == MAP_TYPE_NORMAL) mMap.mapType = MAP_TYPE_SATELLITE
+            else mMap.mapType = MAP_TYPE_NORMAL
         }
     }
 
