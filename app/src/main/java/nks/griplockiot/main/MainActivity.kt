@@ -11,6 +11,10 @@ import nks.griplockiot.createcourse.CreateCourseActivity
 import nks.griplockiot.startgame.StartGameActivity
 import nks.griplockiot.viewscorecards.ViewScoreCardsActivity
 
+/**
+ * MainActivity: The entry point of the application and main hub
+ * Contains buttons to navigate to the main parts of the application
+ */
 class MainActivity : AppCompatActivity() {
 
     private val positiveButtonClick = { _: DialogInterface, _: Int ->

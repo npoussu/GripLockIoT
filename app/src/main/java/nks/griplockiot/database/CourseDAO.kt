@@ -4,6 +4,9 @@ import android.arch.persistence.room.*
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import nks.griplockiot.model.Course
 
+/**
+ * CourseDAO: Data access object for accessing the DB entity Course
+ */
 @Dao
 interface CourseDAO {
 

@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import nks.griplockiot.R
 
+/**
+ * ViewScoreCardsActivity: In progress
+ */
 class ViewScoreCardsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

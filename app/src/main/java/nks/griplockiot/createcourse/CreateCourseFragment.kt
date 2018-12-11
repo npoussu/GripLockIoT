@@ -19,6 +19,12 @@ import nks.griplockiot.database.AppDatabase
 import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
 
+/**
+ * CreateCourseFragment: Used to create new courses. The user can modify the amount of holes
+ * and modify the details by clicking the correspondent cells in the RecyclerView.
+ * Clicking the menu button collapses the menu that contains a button that can be used to insert
+ * new entities to the database.
+ */
 class CreateCourseFragment : Fragment(), CoroutineScope {
 
     lateinit var course: Course
@@ -36,12 +42,18 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        // Create the initial list of courses
         addCourses(holeIndex)
 
         setHasOptionsMenu(true)
 
         course_list_create_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
 
+        /** Create the adapter that holds the list of Holes.
+         *   Higher order function onClickListener that inflates a NumberPicker that can be used to
+         *   modify / select par / length values.
+         */
         val adapter = HoleAdapter(courseListCreateCourse, onClickListener = { _, hole ->
             val builder = AlertDialog.Builder(context!!)
 
@@ -116,6 +128,8 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menuAddCourse -> {
+                // Run the insert a new course query on background thread
+                // Calculate total par / length for the course, omit location details
                 runBlocking(coroutineContext) {
                     AppDatabase.getInstance(context!!).getCourseDAO().insert(Course(courseNameEditText.text.toString(),
                             calculateTotalPar(courseListCreateCourse),
@@ -128,6 +142,7 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
         return super.onOptionsItemSelected(item)
     }
 
+    // Create a dummy list of Holes
     private fun addCourses(holes: Int) {
         for (i in 1..holes) {
             with(courseListCreateCourse) {
@@ -136,10 +151,12 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
         }
     }
 
+    // Add a single Hole to the Course ArrayList
     private fun addCourse(index: Int) {
         courseListCreateCourse.add(Hole(index, 3, 100))
     }
 
+    // Calculate total par of the course
     private fun calculateTotalPar(holeList: ArrayList<Hole>): Int {
         val iterator = holeList.listIterator()
         var parTotal = 0
@@ -150,6 +167,7 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
         return parTotal
     }
 
+    // Calculate total length of the course
     private fun calculateTotalLength(holeList: List<Hole>): Int {
         val iterator = holeList.listIterator()
         var lengthTotal = 0

@@ -21,6 +21,12 @@ import nks.griplockiot.database.AppDatabase
 import nks.griplockiot.model.Course
 import java.io.Serializable
 
+/**
+ * ViewCourseFragment: Used to view a list of existing courses
+ * OnClicking a certain cell on the RecyclerView, ViewCourseActivity will be opened that shows
+ * detailed information about the Course
+ * Longclick opens up a Dialog that prompts the user to confirm the deletion of the course.
+ */
 @ObsoleteCoroutinesApi
 class ViewCourseFragment : Fragment(), CoroutineScope {
 
@@ -42,9 +48,11 @@ class ViewCourseFragment : Fragment(), CoroutineScope {
         super.onActivityCreated(savedInstanceState)
 
         course_list_view_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+
         runBlocking(coroutineContext) {
             arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
         }
+
         adapter = CourseAdapter(arrayList, onClickListener = { _, course ->
             val intent = Intent(context, ViewCourseActivity::class.java)
             intent.putExtra("course", course as Serializable)
@@ -68,7 +76,6 @@ class ViewCourseFragment : Fragment(), CoroutineScope {
 
         })
         course_list_view_course.adapter = adapter
-
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {

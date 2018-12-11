@@ -11,9 +11,14 @@ import kotlinx.coroutines.newFixedThreadPoolContext
 import nks.griplockiot.R
 import nks.griplockiot.model.Course
 
+/**
+ * CourseAdapter: Holds the list of Course-objects
+ */
 class CourseAdapter(courseList: ArrayList<Course>,
                     private val onClickListener: (View, Course) -> Unit,
                     private val onLongClickListener: (View, Course) -> Unit) : RecyclerView.Adapter<CourseAdapter.ViewHolder>(), CoroutineScope {
+
+    // Holder for the list coming from the constructor, alter on modifying the Course
     private var courseListClass: ArrayList<Course> = courseList
 
     @ObsoleteCoroutinesApi

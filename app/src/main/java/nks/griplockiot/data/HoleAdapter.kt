@@ -8,7 +8,11 @@ import android.widget.TextView
 import nks.griplockiot.R
 import nks.griplockiot.model.Hole
 
+/**
+ * HoleAdapter: Holds a list of Hole-objects
+ */
 class HoleAdapter(private val holeList: List<Hole>, private val onClickListener: (View, Hole) -> Unit) : RecyclerView.Adapter<HoleAdapter.ViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hole_list_item, parent, false)
         return ViewHolder(view)

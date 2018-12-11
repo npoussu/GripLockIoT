@@ -5,6 +5,9 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import java.io.Serializable
 
+/**
+ * Course: POKO for holding data about a course, implements Serializable
+ */
 @Entity(tableName = "course")
 data class Course(@ColumnInfo
                   val name: String,

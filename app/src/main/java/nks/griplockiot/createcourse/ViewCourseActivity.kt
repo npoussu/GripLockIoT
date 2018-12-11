@@ -24,6 +24,10 @@ import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
 import java.io.Serializable
 
+/**
+ * ViewCourseActivity: Used to view a single course with detailed information
+ * Clicking a hole opens up a NumberPicker that can be used to modify hole details
+ */
 @ObsoleteCoroutinesApi
 class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
 
@@ -37,6 +41,7 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_course)
 
+        // Get the course from the ViewCourseFragment intent extras
         @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         course = intent.extras["course"] as Course
 
@@ -44,11 +49,15 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
         val lengthTotalHeader = resources.getString(R.string.lengthHeader)
 
         setSupportActionBar(toolbar_activity_view_course)
+
+        // Build the toolbar
         supportActionBar?.title = "Course: " + course.name
         supportActionBar?.subtitle = parTotalHeader + " " + course.parTotal + " | " + lengthTotalHeader + " " + course.lengthTotal + " " + "m"
 
         course_list_view_course_activity.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
 
+        // Build the RecyclerView holding the Holes, NumberPicker for modifying par / length of a
+        // selected Hole
         val adapter = HoleAdapter(course.holes) { _, hole ->
             val builder = AlertDialog.Builder(this)
 
@@ -89,6 +98,7 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
 
     @ObsoleteCoroutinesApi
     override fun onBackPressed() {
+        // On exiting the Activity, update the Course with newest values to DB
         runBlocking(coroutineContext) {
             course.parTotal = calculateTotalPar(course.holes)
             course.lengthTotal = calculateTotalLength(course.holes)
@@ -106,6 +116,7 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.openMapsActivity -> {
+                // Start MapsActivity and update the Course to DB
                 runBlocking(coroutineContext) {
                     course.parTotal = calculateTotalPar(course.holes)
                     course.lengthTotal = calculateTotalLength(course.holes)

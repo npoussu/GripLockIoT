@@ -25,6 +25,10 @@ import nks.griplockiot.model.Course
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
+/**
+ * MapsActivity contains an embedded Google Map. The user can click on the map to insert a marker
+ * that marks the course's location.
+ */
 @ObsoleteCoroutinesApi
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener, CoroutineScope {
 
@@ -32,16 +36,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     // https://www.raywenderlich.com/230-introduction-to-google-maps-api-for-android-with-kotlin
 
     private lateinit var mLocation: LatLng
+    private lateinit var mMap: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var course: Course
 
-    override fun onMapClick(position: LatLng?) {
-        mMap.clear()
-        val latLng = position as LatLng
-        mLocation = latLng
-        val markerOptions = MarkerOptions().position(latLng)
-        val df = DecimalFormat("#.######")
-        df.roundingMode = RoundingMode.CEILING
-        markerOptions.title("Latitude: " + df.format(latLng.latitude) + " Longitude: " + df.format(latLng.longitude))
-        mMap.addMarker(markerOptions)
+    // Companion object = Static object, holds general constants
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        private const val MAP_TYPE_SATELLITE = GoogleMap.MAP_TYPE_SATELLITE
+        private const val MAP_TYPE_NORMAL = GoogleMap.MAP_TYPE_NORMAL
     }
 
     @ObsoleteCoroutinesApi
@@ -50,17 +53,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     override fun onMarkerClick(p0: Marker?) = false
 
-    private lateinit var mMap: GoogleMap
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var course: Course
+    override fun onMapClick(position: LatLng?) {
+        // Clear existing markers
+        mMap.clear()
 
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
-        private const val MAP_TYPE_SATELLITE = GoogleMap.MAP_TYPE_SATELLITE
-        private const val MAP_TYPE_NORMAL = GoogleMap.MAP_TYPE_NORMAL
+        val latLng = position as LatLng
+        mLocation = latLng
+
+        // Build the title that is shown when marker is clicked
+        val markerOptions = MarkerOptions().position(latLng)
+
+        // Round up the value to six decimals
+        val df = DecimalFormat("#.######")
+        df.roundingMode = RoundingMode.CEILING
+        markerOptions.title("Latitude: " + df.format(latLng.latitude) + " Longitude: " + df.format(latLng.longitude))
+
+        mMap.addMarker(markerOptions)
     }
 
     private fun setUpMap() {
+
+        // Request permissions, return if not permitted, continue if permitted
         if (ActivityCompat.checkSelfPermission(this,
                         android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
@@ -70,6 +83,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         mMap.isMyLocationEnabled = true
 
+        // Draw the marker at the course's location
         if (course.latitude != null && course.longitude != null) {
             val currentLatLng = LatLng(course.latitude as Double, course.longitude as Double)
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
@@ -87,6 +101,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
 
+        // Fetch the newest version of the current course from DB, run on background thread
         @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
         runBlocking(coroutineContext) {
             course = intent.extras["course"] as Course
@@ -107,6 +122,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         addLocation.setOnClickListener {
+            // Update the course with the location data
             runBlocking(coroutineContext) {
                 course.latitude = mLocation.latitude
                 course.longitude = mLocation.longitude

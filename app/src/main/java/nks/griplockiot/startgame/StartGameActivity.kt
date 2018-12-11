@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_start_game.*
 import nks.griplockiot.R
 
+/**
+ * StartGameActivity: In progress
+ */
 class StartGameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

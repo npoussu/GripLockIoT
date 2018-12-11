@@ -5,6 +5,9 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
+/**
+ * CoursePagerAdapter: PagerAdapter for paging the different Fragments in the Activity
+ */
 class CoursePagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
     @ObsoleteCoroutinesApi
