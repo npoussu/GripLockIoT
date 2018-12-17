@@ -1,4 +1,4 @@
-#GripLockIoT
+### GripLockIoT
 
 GripLockIoT is a Disc Golf Scorecard application built for Android. 
 The application is for Disc Golf Players to log in their scores while playing disc golf.
