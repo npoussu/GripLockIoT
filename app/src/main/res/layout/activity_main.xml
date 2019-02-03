@@ -30,7 +30,6 @@
         android:gravity="center"
         android:text="@string/view_scorecards" />
 
-
     <Button
         android:id="@+id/exit"
         android:layout_width="match_parent"

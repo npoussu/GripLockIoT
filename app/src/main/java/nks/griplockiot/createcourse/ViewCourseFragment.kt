@@ -25,7 +25,7 @@ import java.io.Serializable
  * ViewCourseFragment: Used to view a list of existing courses
  * OnClicking a certain cell on the RecyclerView, ViewCourseActivity will be opened that shows
  * detailed information about the Course
- * Longclick opens up a Dialog that prompts the user to confirm the deletion of the course.
+ * Long click opens up a Dialog that prompts the user to confirm the deletion of the course.
  */
 @ObsoleteCoroutinesApi
 class ViewCourseFragment : Fragment(), CoroutineScope {
