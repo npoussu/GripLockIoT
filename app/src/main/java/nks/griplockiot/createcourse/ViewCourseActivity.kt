@@ -2,15 +2,15 @@ package nks.griplockiot.createcourse
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.NumberPicker
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_view_course.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -54,7 +54,7 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
         supportActionBar?.title = "Course: " + course.name
         supportActionBar?.subtitle = parTotalHeader + " " + course.parTotal + " | " + lengthTotalHeader + " " + course.lengthTotal + " " + "m"
 
-        course_list_view_course_activity.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        course_list_view_course_activity.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         // Build the RecyclerView holding the Holes, NumberPicker for modifying par / length of a
         // selected Hole

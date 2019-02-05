@@ -2,14 +2,14 @@ package nks.griplockiot.createcourse
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_view_course.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -47,7 +47,7 @@ class ViewCourseFragment : Fragment(), CoroutineScope {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        course_list_view_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        course_list_view_course.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
         runBlocking(coroutineContext) {
             arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
@@ -58,7 +58,7 @@ class ViewCourseFragment : Fragment(), CoroutineScope {
             intent.putExtra("course", course as Serializable)
             startActivity(intent)
         }, onLongClickListener = { _, course ->
-            val builder = AlertDialog.Builder(context)
+            val builder = AlertDialog.Builder(context!!)
             with(builder) {
                 setTitle("Delete course?")
                 setPositiveButton("yes") { dialog, _ ->
@@ -78,8 +78,8 @@ class ViewCourseFragment : Fragment(), CoroutineScope {
         course_list_view_course.adapter = adapter
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu?.findItem(R.id.menuAddCourse)?.isVisible = false
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.menuAddCourse)?.isVisible = false
         super.onPrepareOptionsMenu(menu)
     }
 

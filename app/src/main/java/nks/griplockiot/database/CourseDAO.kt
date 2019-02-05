@@ -1,7 +1,7 @@
 package nks.griplockiot.database
 
-import android.arch.persistence.room.*
-import android.arch.persistence.room.OnConflictStrategy.REPLACE
+import androidx.room.*
+import androidx.room.OnConflictStrategy.REPLACE
 import nks.griplockiot.model.Course
 
 /**

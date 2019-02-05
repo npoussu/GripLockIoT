@@ -47,7 +47,10 @@
 
         <activity
             android:name=".createcourse.googlemaps.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>
