@@ -1,7 +1,7 @@
 package nks.griplockiot.createcourse
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_create_course.*
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import nks.griplockiot.R

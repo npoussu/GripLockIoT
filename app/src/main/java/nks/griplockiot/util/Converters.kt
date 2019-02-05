@@ -1,6 +1,6 @@
 package nks.griplockiot.util
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import com.google.gson.Gson
 import nks.griplockiot.model.Hole
 

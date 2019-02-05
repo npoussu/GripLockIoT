@@ -8,14 +8,14 @@ apply plugin: 'kotlin-kapt'
 
 android {
 
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "nks.griplockiot"
-        minSdkVersion 23
-        targetSdkVersion 26
+        minSdkVersion 28
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -30,24 +30,51 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
-   
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'android.arch.persistence.room:runtime:1.1.1'
-    implementation 'com.android.support:design:26.1.0'
 
-    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-    implementation "android.arch.persistence.room:runtime:1.1.1"
-    kapt "android.arch.persistence.room:compiler:1.1.1"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.1.0-alpha03'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.room:room-runtime:2.1.0-alpha04'
 
-    testImplementation 'junit:junit:4.12'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha04'
+    implementation 'androidx.room:room-runtime:2.1.0-alpha04'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha04'
 
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
+
+    // Optional -- Hamcrest library
+    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    // Set this dependency to use JUnit 4 rules
+    androidTestImplementation('androidx.test:rules:1.1.0') {
+        exclude module: 'support-annotations'
+    }
+
+    // RxJava dependencies
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'io.reactivex:rxjava:1.2.1'
+
+    def lifecycle_version = "2.0.0"
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version" // use kapt for Kotlin
+
+    // optional - ReactiveStreams support for LiveData
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version" // use -ktx for Kotlin
+
+    // optional - Test helpers for LiveData
+    testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
+
 
 }

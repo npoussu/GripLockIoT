@@ -1,13 +1,13 @@
 package nks.griplockiot.createcourse
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
 import android.view.*
-import android.widget.LinearLayout
 import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_create_course.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -48,7 +48,7 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
 
         setHasOptionsMenu(true)
 
-        course_list_create_course.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+        course_list_create_course.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
         /** Create the adapter that holds the list of Holes.
          *   Higher order function onClickListener that inflates a NumberPicker that can be used to
@@ -119,14 +119,14 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
         return inflater.inflate(R.layout.fragment_create_course, container, false)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.menu, menu)
+        inflater.inflate(R.menu.menu, menu)
     }
 
     @ObsoleteCoroutinesApi
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.menuAddCourse -> {
                 // Run the insert a new course query on background thread
                 // Calculate total par / length for the course, omit location details
