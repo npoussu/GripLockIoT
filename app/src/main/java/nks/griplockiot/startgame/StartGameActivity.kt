@@ -1,26 +1,33 @@
 package nks.griplockiot.startgame
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_start_game.*
+import androidx.lifecycle.Observer
+import nks.griplockiot.CourseListViewModel
 
 import nks.griplockiot.R
+import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * StartGameActivity: In progress
  */
 class StartGameActivity : AppCompatActivity() {
 
+    private val viewModel: CourseListViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_game)
-        setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        // 1st argument, Lifecycle owner
+        viewModel.getCourseList().observe(this, Observer {
+            Toast.makeText(this, "onChanged()", Toast.LENGTH_LONG).show()
+            Log.i("jee", it[0].toString())
+            Log.i("jee", it[1].toString())
+            Log.i("jee", it[2].toString())
+            Log.i("jee", it[3].toString())
+        })
     }
-
 }

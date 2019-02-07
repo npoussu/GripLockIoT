@@ -1,5 +1,6 @@
 package nks.griplockiot.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import nks.griplockiot.model.Course
@@ -21,6 +22,12 @@ interface CourseDAO {
 
     @Query("SELECT * FROM course")
     fun getCourses(): List<Course>
+
+    @Query("SELECT * FROM course")
+    fun getLiveDataCourses(): LiveData<List<Course>>
+
+    @Query("SELECT * FROM course WHERE id = :id")
+    fun getLiveDataCourse(id: Int): LiveData<Course>
 
     @Query("SELECT * FROM course WHERE id = :id")
     fun getCourse(id: Int): Course
