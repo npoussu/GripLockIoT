@@ -14,4 +14,10 @@ class CourseListViewModel(repository: CourseRepository) : ViewModel() {
     fun getCourseList(): LiveData<List<Course>> {
         return repository.getCourseList()
     }
+
+    fun deleteCourse(course: Course) {
+        repository.deleteCourse(course)
+    }
+
+
 }
