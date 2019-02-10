@@ -69,7 +69,7 @@ class ViewCourseFragment : Fragment() {
 
     private fun startNewActivity(coursePos: Int) {
         val intent = Intent(activity, ViewCourseActivity::class.java)
-        intent.putExtra("course", coursePos)
+        intent.putExtra("course", adapter.getCourseAt(coursePos))
         startActivity(intent)
     }
 

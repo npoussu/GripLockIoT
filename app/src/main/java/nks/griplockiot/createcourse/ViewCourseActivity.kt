@@ -42,15 +42,7 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_course)
 
-        //val bundle = intent.extras
-        //var courseID = bundle.getInt("course")
-
-        //TODO: Figure out how to map clicked recyclerview index to id
-        // Recyclerview index id != db id
-
-        runBlocking(coroutineContext) {
-            course = AppDatabase.getInstance(applicationContext).getCourseDAO().getCourse(3)
-        }
+        course = intent.extras["course"] as Course
 
         val parTotalHeader = resources.getString(R.string.parTotalHeader)
         val lengthTotalHeader = resources.getString(R.string.lengthHeader)
@@ -60,7 +52,6 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
         // Build the toolbar
         supportActionBar?.title = "Course: " + course.name
         supportActionBar?.subtitle = parTotalHeader + " " + course.parTotal + " | " + lengthTotalHeader + " " + course.lengthTotal + " " + "m"
-
 
         course_list_view_course_activity.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
