@@ -136,7 +136,6 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
                             calculateTotalLength(courseListCreateCourse),
                             courseListCreateCourse, null, null))
                 }
-                (activity as CreateCourseActivity).refreshArrayList()
             }
         }
         return super.onOptionsItemSelected(item)

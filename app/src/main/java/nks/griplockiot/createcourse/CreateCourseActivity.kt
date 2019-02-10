@@ -3,7 +3,6 @@ package nks.griplockiot.createcourse
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_create_course.*
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import nks.griplockiot.R
 
 /**
@@ -11,13 +10,7 @@ import nks.griplockiot.R
  * Implements a RefreshInterface that is used to refresh data in the ViewCourseFragment
  * from CreateCourseFragment
  */
-class CreateCourseActivity : AppCompatActivity(), CreateCourseFragment.RefreshInterface {
-
-    @ObsoleteCoroutinesApi
-    override fun refreshArrayList() {
-        val fragment = supportFragmentManager.fragments[1] as ViewCourseFragment
-        fragment.refreshArrayListFragment()
-    }
+class CreateCourseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

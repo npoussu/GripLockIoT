@@ -27,4 +27,7 @@
     <string name="select_location">Select location</string>
     <string name="add">Add</string>
     <string name="switchMapType">Switch</string>
+    <string name="delete_course">Delete course?</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
 </resources>

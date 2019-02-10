@@ -55,12 +55,12 @@ class StartGameActivity : AppCompatActivity() {
     private fun showDeleteDialog(clickPos: Int) {
         val builder = AlertDialog.Builder(this)
         with(builder) {
-            setTitle("Delete course?")
-            setPositiveButton("yes") { dialog, _ ->
+            setTitle(getString(R.string.delete_course))
+            setPositiveButton(getString(R.string.yes)) { dialog, _ ->
                 viewModel.deleteCourse(adapter.getCourseAt(clickPos))
                 dialog.dismiss()
             }
-            setNegativeButton("no") { dialog, _ ->
+            setNegativeButton(getString(R.string.no)) { dialog, _ ->
                 dialog.cancel()
             }
             show()

@@ -8,18 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_view_course.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.newFixedThreadPoolContext
-import kotlinx.coroutines.runBlocking
+import nks.griplockiot.CourseListViewModel
 import nks.griplockiot.R
-import nks.griplockiot.data.CourseAdapter
-import nks.griplockiot.database.AppDatabase
-import nks.griplockiot.model.Course
-import java.io.Serializable
+import nks.griplockiot.data.CourseAdapterLiveData
+import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * ViewCourseFragment: Used to view a list of existing courses
@@ -28,54 +25,68 @@ import java.io.Serializable
  * Long click opens up a Dialog that prompts the user to confirm the deletion of the course.
  */
 @ObsoleteCoroutinesApi
-class ViewCourseFragment : Fragment(), CoroutineScope {
+class ViewCourseFragment : Fragment() {
 
-    private lateinit var adapter: CourseAdapter
-    private lateinit var arrayList: ArrayList<Course>
-
-    override
-    val coroutineContext = newFixedThreadPoolContext(2, "bg")
-
-    fun refreshArrayListFragment() {
-        runBlocking(coroutineContext) {
-            arrayList.clear()
-            arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
-        }
-        adapter.updateData(arrayList)
-    }
+    private val viewModel: CourseListViewModel by viewModel()
+    private lateinit var adapter: CourseAdapterLiveData
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         course_list_view_course.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        course_list_view_course.setHasFixedSize(true)
 
-        runBlocking(coroutineContext) {
-            arrayList = ArrayList(AppDatabase.getInstance(activity!!.applicationContext).getCourseDAO().getCourses())
-        }
+        adapter = CourseAdapterLiveData()
+        course_list_view_course.adapter = adapter
 
-        adapter = CourseAdapter(arrayList, onClickListener = { _, course ->
-            val intent = Intent(context, ViewCourseActivity::class.java)
-            intent.putExtra("course", course as Serializable)
-            startActivity(intent)
-        }, onLongClickListener = { _, course ->
-            val builder = AlertDialog.Builder(context!!)
-            with(builder) {
-                setTitle("Delete course?")
-                setPositiveButton("yes") { dialog, _ ->
-                    adapter.deleteItem(course)
-                    runBlocking(coroutineContext) {
-                        AppDatabase.getInstance(context).getCourseDAO().delete(course)
-                    }
-                    dialog.dismiss()
-                }
-                setNegativeButton("no") { dialog, _ ->
-                    dialog.cancel()
-                }
-                show()
+        // 1st argument, Lifecycle owner
+        viewModel.getCourseList().observe(this, Observer {
+            adapter.setNotes(it)
+        })
+
+        viewModel.showDialog.observe(this, Observer { clickPos ->
+            clickPos.getContentIfNotHandled()?.let {
+                showDeleteDialog(it)
+            }
+        })
+
+        viewModel.startNewActivity.observe(this, Observer { coursePos ->
+            coursePos.getContentIfNotHandled()?.let {
+                startNewActivity(it)
+            }
+        })
+
+        adapter.setOnItemClickListener(object : CourseAdapterLiveData.OnItemClickListener {
+            override fun onClick(pos: Int) {
+                viewModel.startNewActivity(pos)
             }
 
+            override fun onLongClick(pos: Int) {
+                viewModel.showDeleteDialog(pos)
+            }
         })
-        course_list_view_course.adapter = adapter
+    }
+
+    private fun startNewActivity(coursePos: Int) {
+        val intent = Intent(activity, ViewCourseActivity::class.java)
+        intent.putExtra("course", coursePos)
+        startActivity(intent)
+    }
+
+    private fun showDeleteDialog(clickPos: Int) {
+        val builder = AlertDialog.Builder(context!!)
+        with(builder) {
+            setTitle(getString(R.string.delete_course))
+            setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                // TODO: Delete from db and just update ui
+                viewModel.deleteCourse(adapter.getCourseAt(clickPos))
+                dialog.dismiss()
+            }
+            setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                dialog.cancel()
+            }
+            show()
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -88,10 +99,6 @@ class ViewCourseFragment : Fragment(), CoroutineScope {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onResume() {
-        super.onResume()
-        refreshArrayListFragment()
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_view_course, container, false)
