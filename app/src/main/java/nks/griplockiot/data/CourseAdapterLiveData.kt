@@ -42,15 +42,18 @@ class CourseAdapterLiveData : RecyclerView.Adapter<ViewHolder>() {
 
         init {
             itemView.setOnClickListener {
-                listenerClass.onItemClick(courseList[adapterPosition])
-                listenerClass.deleteCourseAtPos(adapterPosition)
+                listenerClass.onClick(adapterPosition)
+            }
+            itemView.setOnLongClickListener {
+                listenerClass.onLongClick(adapterPosition)
+                true
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(course: Course)
-        fun deleteCourseAtPos(pos: Int)
+        fun onClick(pos: Int)
+        fun onLongClick(pos: Int)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {

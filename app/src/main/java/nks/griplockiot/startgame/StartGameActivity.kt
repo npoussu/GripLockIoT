@@ -1,6 +1,8 @@
 package nks.griplockiot.startgame
 
 import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,7 +10,6 @@ import kotlinx.android.synthetic.main.activity_start_game.*
 import nks.griplockiot.CourseListViewModel
 import nks.griplockiot.R
 import nks.griplockiot.data.CourseAdapterLiveData
-import nks.griplockiot.model.Course
 import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
@@ -17,10 +18,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class StartGameActivity : AppCompatActivity() {
 
     private val viewModel: CourseListViewModel by viewModel()
-
-    companion object {
-        const val TAG = "StartGameActivity"
-    }
+    private lateinit var adapter: CourseAdapterLiveData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +27,7 @@ class StartGameActivity : AppCompatActivity() {
         course_recycler_view.layoutManager = LinearLayoutManager(this)
         course_recycler_view.setHasFixedSize(true)
 
-        val adapter = CourseAdapterLiveData()
+        adapter = CourseAdapterLiveData()
         course_recycler_view.adapter = adapter
 
         // 1st argument, Lifecycle owner
@@ -37,15 +35,35 @@ class StartGameActivity : AppCompatActivity() {
             adapter.setNotes(it)
         })
 
-        adapter.setOnItemClickListener(object : CourseAdapterLiveData.OnItemClickListener {
-            override fun deleteCourseAtPos(pos: Int) {
-                viewModel.deleteCourse(adapter.getCourseAt(pos))
+        viewModel.showDialog.observe(this, Observer { clickPos ->
+            clickPos.getContentIfNotHandled()?.let {
+                showDeleteDialog(it)
             }
-
-            override fun onItemClick(course: Course) {
-
-            }
-
         })
+
+        adapter.setOnItemClickListener(object : CourseAdapterLiveData.OnItemClickListener {
+            override fun onClick(pos: Int) {
+                Toast.makeText(applicationContext, "Open course details!", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onLongClick(pos: Int) {
+                viewModel.showDeleteDialog(pos)
+            }
+        })
+    }
+
+    private fun showDeleteDialog(clickPos: Int) {
+        val builder = AlertDialog.Builder(this)
+        with(builder) {
+            setTitle("Delete course?")
+            setPositiveButton("yes") { dialog, _ ->
+                viewModel.deleteCourse(adapter.getCourseAt(clickPos))
+                dialog.dismiss()
+            }
+            setNegativeButton("no") { dialog, _ ->
+                dialog.cancel()
+            }
+            show()
+        }
     }
 }

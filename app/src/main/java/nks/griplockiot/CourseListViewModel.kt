@@ -1,15 +1,21 @@
 package nks.griplockiot
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nks.griplockiot.model.Course
 import nks.griplockiot.repository.CourseRepository
 
-class CourseListViewModel(repository: CourseRepository) : ViewModel() {
+class CourseListViewModel(private val repository: CourseRepository) : ViewModel() {
 
-    // TODO: Create delete, update, insert methods w/ observables rxjava, thread yms
+    private val showDialogVal = MutableLiveData<Event<Int>>()
 
-    private val repository: CourseRepository = repository
+    val showDialog: LiveData<Event<Int>>
+        get() = showDialogVal
+
+    fun showDeleteDialog(clickPos: Int) {
+        showDialogVal.value = Event(clickPos)
+    }
 
     fun getCourseList(): LiveData<List<Course>> {
         return repository.getCourseList()

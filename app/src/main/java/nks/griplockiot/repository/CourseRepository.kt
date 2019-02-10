@@ -19,7 +19,7 @@ class CourseRepository(courseDAO: CourseDAO) {
     fun getCourse(id: Int): LiveData<Course> {
         return courseDAOImpl.getLiveDataCourse(id)
     }
-    
+
     fun deleteCourse(course: Course): Job {
         return GlobalScope.launch(Dispatchers.Default) {
             courseDAOImpl.delete(course)
@@ -32,8 +32,10 @@ class CourseRepository(courseDAO: CourseDAO) {
         }
     }
 
-    fun updateCourse(course: Course) {
-        courseDAOImpl.update(course)
+    fun updateCourse(course: Course): Job {
+        return GlobalScope.launch(Dispatchers.Default) {
+            courseDAOImpl.update(course)
+        }
     }
 
 
