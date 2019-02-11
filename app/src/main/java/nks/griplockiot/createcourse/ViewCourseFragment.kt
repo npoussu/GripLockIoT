@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_view_course.*
 import nks.griplockiot.R
-import nks.griplockiot.data.CourseAdapterLiveData
+import nks.griplockiot.data.CourseAdapter
 import nks.griplockiot.viewmodel.CourseListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -27,7 +27,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class ViewCourseFragment : Fragment() {
 
     private val viewModel: CourseListViewModel by viewModel()
-    private lateinit var adapter: CourseAdapterLiveData
+    private lateinit var adapter: CourseAdapter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -35,7 +35,7 @@ class ViewCourseFragment : Fragment() {
         course_list_view_course.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         course_list_view_course.setHasFixedSize(true)
 
-        adapter = CourseAdapterLiveData()
+        adapter = CourseAdapter()
         course_list_view_course.adapter = adapter
 
         // 1st argument, Lifecycle owner
@@ -55,7 +55,7 @@ class ViewCourseFragment : Fragment() {
             }
         })
 
-        adapter.setOnItemClickListener(object : CourseAdapterLiveData.OnItemClickListener {
+        adapter.setOnItemClickListener(object : CourseAdapter.OnItemClickListener {
             override fun onClick(pos: Int) {
                 viewModel.startNewActivity(pos)
             }

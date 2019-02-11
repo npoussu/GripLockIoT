@@ -21,13 +21,12 @@ interface CourseDAO {
     fun delete(vararg course: Course)
 
     @Query("SELECT * FROM course")
-    fun getCourses(): List<Course>
-
-    @Query("SELECT * FROM course")
     fun getLiveDataCourses(): LiveData<List<Course>>
 
     @Query("SELECT * FROM course WHERE id = :id")
     fun getLiveDataCourse(id: Int): LiveData<Course>
+
+    // TODO: Delete getCourse (non-LiveData) after refactoring to MVVM
 
     @Query("SELECT * FROM course WHERE id = :id")
     fun getCourse(id: Int): Course

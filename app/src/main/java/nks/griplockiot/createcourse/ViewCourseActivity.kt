@@ -44,6 +44,8 @@ class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_course)
 
+        // TODO: Fetch Course from Room LiveData
+
         course = intent.extras["course"] as Course
 
         val parTotalHeader = resources.getString(R.string.parTotalHeader)
