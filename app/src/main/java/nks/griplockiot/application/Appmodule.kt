@@ -1,8 +1,9 @@
-package nks.griplockiot
+package nks.griplockiot.application
 
 import androidx.room.Room
 import nks.griplockiot.database.AppDatabase
 import nks.griplockiot.repository.CourseRepository
+import nks.griplockiot.viewmodel.CourseListViewModel
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
 

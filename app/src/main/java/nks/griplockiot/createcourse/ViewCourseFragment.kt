@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_view_course.*
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import nks.griplockiot.CourseListViewModel
+import nks.griplockiot.viewmodel.CourseListViewModel
 import nks.griplockiot.R
 import nks.griplockiot.data.CourseAdapterLiveData
 import org.koin.android.viewmodel.ext.android.viewModel

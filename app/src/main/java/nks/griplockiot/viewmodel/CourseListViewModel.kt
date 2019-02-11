@@ -1,10 +1,11 @@
-package nks.griplockiot
+package nks.griplockiot.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nks.griplockiot.model.Course
 import nks.griplockiot.repository.CourseRepository
+import nks.griplockiot.util.Event
 
 class CourseListViewModel(private val repository: CourseRepository) : ViewModel() {
 
