@@ -12,10 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_view_course.*
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import nks.griplockiot.viewmodel.CourseListViewModel
 import nks.griplockiot.R
 import nks.griplockiot.data.CourseAdapterLiveData
+import nks.griplockiot.viewmodel.CourseListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
@@ -24,7 +23,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
  * detailed information about the Course
  * Long click opens up a Dialog that prompts the user to confirm the deletion of the course.
  */
-@ObsoleteCoroutinesApi
+
 class ViewCourseFragment : Fragment() {
 
     private val viewModel: CourseListViewModel by viewModel()

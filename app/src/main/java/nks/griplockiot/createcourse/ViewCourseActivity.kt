@@ -32,6 +32,8 @@ import java.io.Serializable
 @ObsoleteCoroutinesApi
 class ViewCourseActivity : AppCompatActivity(), CoroutineScope {
 
+    // TODO: Refactor to MVVM
+
     lateinit var course: Course
 
     @ObsoleteCoroutinesApi
