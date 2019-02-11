@@ -3,7 +3,8 @@
 GripLockIoT is a Disc Golf Scorecard application built for Android. 
 The application is for Disc Golf Players to log in their scores while playing disc golf.
 
-Currently the user can create new courses and save them to a local SQLite database.
+Currently the user can create new courses and save them to a local SQLite database. The project is currently being refactored from MVC to MVVM / MVP to improve and implement testability.
+
 The aim is to build this into a fairly simplistic Disc Golf Scorecard application with all the essential functionalities (log in a round of disc golf, view past rounds, create / ciew / edit players, create / view / edit courses).
 
 ## Getting Started
@@ -49,7 +50,7 @@ TODO
 
 ## Authors
 
-* **Niklas Poussu* - [SulavaOperaattori](https://github.com/SulavaOperaattori)
+* **Niklas Poussu* - [SulavaOperaattori](https://github.com/npoussu)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
