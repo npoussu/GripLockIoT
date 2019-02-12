@@ -47,6 +47,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     implementation 'com.google.code.gson:gson:2.8.5'
+    testImplementation 'org.koin:koin-test:1.0.2'
 
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
@@ -83,5 +84,6 @@ dependencies {
     // optional - Test helpers for LiveData
     testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
 
-
+    implementation 'org.mockito:mockito-inline:2.21.0'
+    implementation "org.mockito:mockito-core:2.21.0"
 }
