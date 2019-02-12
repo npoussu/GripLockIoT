@@ -16,6 +16,7 @@ class CourseListViewModel(private val repository: CourseRepository) : ViewModel(
         get() = startNewActivityVal
 
     fun startNewActivity(pos: Int) {
+        // TODO: Remove dependency
         startNewActivityVal.value = Event(pos)
     }
 

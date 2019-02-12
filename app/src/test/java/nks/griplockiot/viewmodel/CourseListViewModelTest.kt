@@ -11,6 +11,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
@@ -20,37 +21,73 @@ class CourseListViewModelTest {
     val rule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: CourseListViewModel
-    private lateinit var dataResponse: MutableLiveData<List<Course>>
+
+    private lateinit var dataResponseList: MutableLiveData<List<Course>>
+    private lateinit var dataResponse: MutableLiveData<Course>
+
+    private val courseIndex = 5
 
     @Mock
-    lateinit var observer: Observer<List<Course>>
+    lateinit var observerList: Observer<List<Course>>
+
+    @Mock
+    lateinit var observer: Observer<Course>
 
     @Mock
     lateinit var repository: CourseRepository
 
+
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
+        dataResponseList = MutableLiveData()
         dataResponse = MutableLiveData()
         viewModel = CourseListViewModel(repository)
     }
 
-
     @Test
-    fun `test viewModel gets observable`() {
+    fun `test viewModel gets observable course list`() {
         val returnedCourse = createDummyCourse()
-        dataResponse.value = listOf(returnedCourse)
+        dataResponseList.value = listOf(returnedCourse)
 
-        Mockito.`when`(repository.getCourseList()).thenReturn(dataResponse)
+        Mockito.`when`(repository.getCourseList()).thenReturn(dataResponseList)
 
-        viewModel.getCourseList().observeForever(observer)
+        viewModel.getCourseList().observeForever(observerList)
 
-        verify(observer).onChanged(listOf(Course(returnedCourse.name,
+        verify(observerList).onChanged(listOf(Course(returnedCourse.name,
                 returnedCourse.parTotal,
                 returnedCourse.lengthTotal,
                 returnedCourse.holes,
                 returnedCourse.latitude,
                 returnedCourse.longitude)))
+
+    }
+
+    @Test
+    fun `test viewModel gets observable course by id`() {
+
+        val returnedCourse = createDummyCourse()
+        dataResponse.value = returnedCourse
+
+        Mockito.`when`(repository.getCourse(Mockito.anyInt())).thenReturn(dataResponse)
+
+        viewModel.getCourse(courseIndex).observeForever(observer)
+
+        verify(observer).onChanged(Course(returnedCourse.name,
+                returnedCourse.parTotal,
+                returnedCourse.lengthTotal,
+                returnedCourse.holes,
+                returnedCourse.latitude,
+                returnedCourse.longitude))
+    }
+
+    @Test
+    fun `test viewModel calls repository delete course`() {
+
+        val dummyCourse = createDummyCourse()
+        viewModel.deleteCourse(dummyCourse)
+
+        verify(repository, times(1)).deleteCourse(dummyCourse)
 
     }
 

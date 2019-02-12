@@ -77,7 +77,6 @@ class ViewCourseFragment : Fragment() {
         with(builder) {
             setTitle(getString(R.string.delete_course))
             setPositiveButton(getString(R.string.yes)) { dialog, _ ->
-                // TODO: Delete from db and just update ui
                 viewModel.deleteCourse(adapter.getCourseAt(clickPos))
                 dialog.dismiss()
             }
