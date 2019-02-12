@@ -12,8 +12,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_view_course.*
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import nks.griplockiot.R
 import nks.griplockiot.data.CourseAdapter
+import nks.griplockiot.util.Event
 import nks.griplockiot.viewmodel.CourseListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -29,6 +31,7 @@ class ViewCourseFragment : Fragment() {
     private val viewModel: CourseListViewModel by viewModel()
     private lateinit var adapter: CourseAdapter
 
+    @ObsoleteCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -57,15 +60,16 @@ class ViewCourseFragment : Fragment() {
 
         adapter.setOnItemClickListener(object : CourseAdapter.OnItemClickListener {
             override fun onClick(pos: Int) {
-                viewModel.startNewActivity(pos)
+                viewModel.startNewActivity(Event(pos))
             }
 
             override fun onLongClick(pos: Int) {
-                viewModel.showDeleteDialog(pos)
+                viewModel.showDeleteDialog(Event(pos))
             }
         })
     }
 
+    @ObsoleteCoroutinesApi
     private fun startNewActivity(coursePos: Int) {
         val intent = Intent(activity, ViewCourseActivity::class.java)
         intent.putExtra("course", adapter.getCourseAt(coursePos))

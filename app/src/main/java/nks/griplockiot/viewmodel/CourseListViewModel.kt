@@ -15,16 +15,15 @@ class CourseListViewModel(private val repository: CourseRepository) : ViewModel(
     val startNewActivity: LiveData<Event<Int>>
         get() = startNewActivityVal
 
-    fun startNewActivity(pos: Int) {
-        // TODO: Remove dependency
-        startNewActivityVal.value = Event(pos)
+    fun startNewActivity(event: Event<Int>) {
+        startNewActivityVal.value = event
     }
 
     val showDialog: LiveData<Event<Int>>
         get() = showDialogVal
 
-    fun showDeleteDialog(clickPos: Int) {
-        showDialogVal.value = Event(clickPos)
+    fun showDeleteDialog(event: Event<Int>) {
+        showDialogVal.value = event
     }
 
     fun getCourseList(): LiveData<List<Course>> {

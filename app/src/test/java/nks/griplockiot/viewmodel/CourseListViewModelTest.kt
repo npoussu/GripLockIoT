@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
 import nks.griplockiot.repository.CourseRepository
+import nks.griplockiot.util.Event
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,6 +18,15 @@ import org.mockito.MockitoAnnotations
 
 class CourseListViewModelTest {
 
+    companion object {
+        const val courseIndex = 5
+        const val parTotal = 60
+        const val lengthTotal = 1800
+        const val hole = 1
+        const val par = 3
+        const val length = 60
+    }
+
     @get: Rule
     val rule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -24,8 +34,7 @@ class CourseListViewModelTest {
 
     private lateinit var dataResponseList: MutableLiveData<List<Course>>
     private lateinit var dataResponse: MutableLiveData<Course>
-
-    private val courseIndex = 5
+    private lateinit var dataResponseEvent: MutableLiveData<Event<Int>>
 
     @Mock
     lateinit var observerList: Observer<List<Course>>
@@ -34,7 +43,13 @@ class CourseListViewModelTest {
     lateinit var observer: Observer<Course>
 
     @Mock
+    lateinit var observerEvent: Observer<Event<Int>>
+
+    @Mock
     lateinit var repository: CourseRepository
+
+    @Mock
+    lateinit var event: Event<Int>
 
 
     @Before
@@ -42,6 +57,7 @@ class CourseListViewModelTest {
         MockitoAnnotations.initMocks(this)
         dataResponseList = MutableLiveData()
         dataResponse = MutableLiveData()
+        dataResponseEvent = MutableLiveData()
         viewModel = CourseListViewModel(repository)
     }
 
@@ -91,9 +107,35 @@ class CourseListViewModelTest {
 
     }
 
+    @Test
+    fun `test viewModel receives startNewActivity event`() {
+
+        val clickEvent = event
+        dataResponseEvent.value = clickEvent
+
+        viewModel.startNewActivity.observeForever(observerEvent)
+
+        viewModel.startNewActivity(event)
+
+        verify(observerEvent).onChanged(event)
+    }
+
+    @Test
+    fun `test viewModel receives showDialog event`() {
+
+        val clickEvent = event
+        dataResponseEvent.value = clickEvent
+
+        viewModel.showDialog.observeForever(observerEvent)
+
+        viewModel.showDeleteDialog(event)
+
+        verify(observerEvent).onChanged(event)
+    }
+
     private fun createDummyCourse(): Course {
-        return Course("test", 60, 18,
-                listOf(Hole(1, 3, 60), Hole(1, 3, 60))
+        return Course("test", parTotal, lengthTotal,
+                listOf(Hole(hole, par, length), Hole(hole, par, length))
                 , null, null)
     }
 
