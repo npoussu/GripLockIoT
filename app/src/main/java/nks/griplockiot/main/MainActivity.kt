@@ -18,8 +18,7 @@ import nks.griplockiot.viewscorecards.ViewScoreCardsActivity
 class MainActivity : AppCompatActivity() {
 
     private val positiveButtonClick = { _: DialogInterface, _: Int ->
-        finish()
-        System.exit(0)
+        finishAndRemoveTask()
     }
 
     private val negativeButtonClick = { dialog: DialogInterface, _: Int ->
@@ -53,5 +52,6 @@ class MainActivity : AppCompatActivity() {
                 show()
             }
         }
+
     }
 }

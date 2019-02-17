@@ -26,6 +26,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
  * Long click opens up a Dialog that prompts the user to confirm the deletion of the course.
  */
 
+
 class ViewCourseFragment : Fragment() {
 
     private val viewModel: CourseListViewModel by viewModel()
@@ -104,5 +105,6 @@ class ViewCourseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_view_course, container, false)
+
     }
 }
