@@ -65,6 +65,7 @@ dependencies {
     androidTestImplementation 'junit:junit:4.12'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation "androidx.arch.core:core-testing:$lifecycle_version"
+    testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
     androidTestImplementation('androidx.test:rules:1.1.0') {
         exclude module: 'support-annotations'
     }
