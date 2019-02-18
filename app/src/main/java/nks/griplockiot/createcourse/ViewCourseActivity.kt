@@ -26,7 +26,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
  * ViewCourseActivity: Used to view a single course with detailed information
  * Clicking a hole opens up a NumberPicker that can be used to modify hole details
  */
-class ViewCourseActivityMVVM : AppCompatActivity() {
+class ViewCourseActivity : AppCompatActivity() {
 
     private val viewModel: CourseListViewModel by viewModel()
     private lateinit var adapter: HoleAdapterMVVM

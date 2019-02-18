@@ -5,6 +5,8 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeLeft
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.runner.AndroidJUnit4
@@ -27,6 +29,7 @@ class ViewCourseFragmentTest {
         // If RecyclerView is empty, don't click, if not empty, click first item
         if (getRowCount() > 0) {
             onView(withId(nks.griplockiot.R.id.course_list_view_course)).perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+            Intents.intended(IntentMatchers.hasComponent(ViewCourseActivity::class.java.name))
         }
     }
 

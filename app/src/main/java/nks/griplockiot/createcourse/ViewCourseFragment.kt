@@ -72,7 +72,7 @@ class ViewCourseFragment : Fragment() {
 
     @ObsoleteCoroutinesApi
     private fun startNewActivity(coursePos: Int) {
-        val intent = Intent(activity, ViewCourseActivityMVVM::class.java)
+        val intent = Intent(activity, ViewCourseActivity::class.java)
         intent.putExtra("courseID", adapter.getCourseAt(coursePos).id)
         startActivity(intent)
     }
