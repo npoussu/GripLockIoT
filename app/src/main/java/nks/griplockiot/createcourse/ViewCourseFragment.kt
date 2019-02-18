@@ -44,7 +44,7 @@ class ViewCourseFragment : Fragment() {
 
         // 1st argument, Lifecycle owner
         viewModel.getCourseList().observe(this, Observer {
-            adapter.setNotes(it)
+            adapter.setCourses(it)
         })
 
         viewModel.showDialog.observe(this, Observer { clickPos ->
@@ -72,7 +72,7 @@ class ViewCourseFragment : Fragment() {
 
     @ObsoleteCoroutinesApi
     private fun startNewActivity(coursePos: Int) {
-        val intent = Intent(activity, ViewCourseActivity::class.java)
+        val intent = Intent(activity, ViewCourseActivityMVVM::class.java)
         intent.putExtra("course", adapter.getCourseAt(coursePos))
         startActivity(intent)
     }

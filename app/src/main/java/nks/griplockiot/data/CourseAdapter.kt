@@ -23,7 +23,7 @@ class CourseAdapter : RecyclerView.Adapter<ViewHolder>() {
         return courseList.size
     }
 
-    fun setNotes(courses: List<Course>) {
+    fun setCourses(courses: List<Course>) {
         courseList = courses
         notifyDataSetChanged()
     }
