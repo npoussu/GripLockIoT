@@ -13,6 +13,8 @@ import nks.griplockiot.model.Hole
  */
 class HoleAdapter(private val holeList: List<Hole>, private val onClickListener: (View, Hole) -> Unit) : RecyclerView.Adapter<HoleAdapter.ViewHolder>() {
 
+    // TODO: Delete this class when HoleAdapterMVVM is ready
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hole_list_item, parent, false)
         return ViewHolder(view)

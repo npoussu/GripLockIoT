@@ -154,26 +154,26 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
     private fun addCourse(index: Int) {
         courseListCreateCourse.add(Hole(index, 3, 100))
     }
+}
 
-    // Calculate total par of the course
-    private fun calculateTotalPar(holeList: ArrayList<Hole>): Int {
-        val iterator = holeList.listIterator()
-        var parTotal = 0
+// Calculate total par of the course
+fun calculateTotalPar(holeList: List<Hole>): Int {
+    val iterator = holeList.listIterator()
+    var parTotal = 0
 
-        for (item in iterator) {
-            parTotal += item.par
-        }
-        return parTotal
+    for (item in iterator) {
+        parTotal += item.par
     }
+    return parTotal
+}
 
-    // Calculate total length of the course
-    private fun calculateTotalLength(holeList: List<Hole>): Int {
-        val iterator = holeList.listIterator()
-        var lengthTotal = 0
+// Calculate total length of the course
+fun calculateTotalLength(holeList: List<Hole>): Int {
+    val iterator = holeList.listIterator()
+    var lengthTotal = 0
 
-        for (item in iterator) {
-            lengthTotal += item.length
-        }
-        return lengthTotal
+    for (item in iterator) {
+        lengthTotal += item.length
     }
+    return lengthTotal
 }
