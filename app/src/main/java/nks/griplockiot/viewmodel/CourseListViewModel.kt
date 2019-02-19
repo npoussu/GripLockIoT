@@ -16,12 +16,16 @@ class CourseListViewModel(private val repository: CourseRepository) : ViewModel(
     private val showNumberPickerDialogVal = MutableLiveData<Event<Int>>()
 
     private val dummyCourse: MutableLiveData<Course> = MutableLiveData()
+    private val holeIndexCounter: MutableLiveData<Int> = MutableLiveData()
 
     init {
         var holeList = ArrayList<Hole>()
         holeList = addCourses(18, holeList)
         val course = Course("dummyCourse", 60, 2000, holeList, null, null)
         dummyCourse.value = course
+
+        // Default course has 18 holes
+        holeIndexCounter.value = 18
     }
 
     val startNewActivity: LiveData<Event<Int>>
@@ -65,5 +69,15 @@ class CourseListViewModel(private val repository: CourseRepository) : ViewModel(
         repository.updateCourse(course)
     }
 
+    fun getHoleIndex(): LiveData<Int> {
+        return holeIndexCounter
+    }
 
+    fun decrementCounter() {
+        holeIndexCounter.value = holeIndexCounter.value!!.minus(1)
+    }
+
+    fun incrementCounter() {
+        holeIndexCounter.value = holeIndexCounter.value!!.plus(1)
+    }
 }

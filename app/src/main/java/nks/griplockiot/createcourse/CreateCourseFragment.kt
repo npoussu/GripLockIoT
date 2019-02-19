@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_create_course.*
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import nks.griplockiot.R
-import nks.griplockiot.data.HoleAdapterMVVM
+import nks.griplockiot.data.HoleAdapter
 import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
 import nks.griplockiot.util.Event
@@ -28,10 +28,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class CreateCourseFragment : Fragment() {
 
     lateinit var course: Course
-    lateinit var adapter: HoleAdapterMVVM
-
-    private var courseListCreateCourse: ArrayList<Hole> = ArrayList()
-    private var holeIndex: Int = 18
+    lateinit var adapter: HoleAdapter
+    var holeIndex: Int = 0
 
     private val viewModel: CourseListViewModel by viewModel()
 
@@ -42,7 +40,7 @@ class CreateCourseFragment : Fragment() {
 
         course_list_create_course.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-        adapter = HoleAdapterMVVM()
+        adapter = HoleAdapter()
 
         course_list_create_course.adapter = adapter
 
@@ -57,21 +55,24 @@ class CreateCourseFragment : Fragment() {
             }
         })
 
-        adapter.setOnItemClickListener(object : HoleAdapterMVVM.OnItemClickListener {
+        viewModel.getHoleIndex().observe(this, Observer {
+            holes.text = it.toString()
+            holeIndex = it
+        })
+
+        adapter.setOnItemClickListener(object : HoleAdapter.OnItemClickListener {
             override fun onClick(pos: Int) {
                 viewModel.showNumberPickerDialog(Event(pos))
             }
         })
 
-        // TODO: Refactor minus / plusbutton
         minusButton.setOnClickListener {
             if (holeIndex > 0) {
-                holeIndex--
-                holes.text = holeIndex.toString()
-                // Remove last item from RecyclerView
-                courseListCreateCourse.removeAt(courseListCreateCourse.size - 1)
-                // Update adapters last index item
-                adapter.notifyItemRemoved(courseListCreateCourse.size)
+                viewModel.decrementCounter()
+                viewModel.getHoleIndex()
+                course.holes.removeAt(holeIndex)
+                adapter.setCourse(course)
+                course_list_create_course.smoothScrollToPosition(holeIndex)
             } else {
                 Toast.makeText(context, "Course must contain at least one hole", Toast.LENGTH_SHORT).show()
             }
@@ -79,11 +80,11 @@ class CreateCourseFragment : Fragment() {
 
         plusButton.setOnClickListener {
             if (holeIndex < 36) {
-                holeIndex++
-                holes.text = holeIndex.toString()
-                addCourse(adapter.itemCount + 1, courseListCreateCourse)
-                adapter.notifyDataSetChanged()
-                course_list_create_course.smoothScrollToPosition(courseListCreateCourse.size - 1)
+                viewModel.incrementCounter()
+                viewModel.getHoleIndex()
+                course.holes.add(holeIndex - 1, Hole(holeIndex, 3, 100))
+                adapter.setCourse(course)
+                course_list_create_course.smoothScrollToPosition(holeIndex)
             } else {
                 Toast.makeText(context, "Course must contain a maximum of 36 holes", Toast.LENGTH_SHORT).show()
             }
@@ -179,9 +180,4 @@ fun addCourses(holes: Int, courseList: ArrayList<Hole>): ArrayList<Hole> {
         }
     }
     return courseList
-}
-
-// Add a single Hole to the Course ArrayList
-fun addCourse(index: Int, courseList: ArrayList<Hole>) {
-    courseList.add(Hole(index, 3, 100))
 }

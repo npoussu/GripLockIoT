@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_view_course.*
 import nks.griplockiot.R
 import nks.griplockiot.createcourse.googlemaps.MapsActivity
-import nks.griplockiot.data.HoleAdapterMVVM
+import nks.griplockiot.data.HoleAdapter
 import nks.griplockiot.model.Course
 import nks.griplockiot.util.Event
 import nks.griplockiot.viewmodel.CourseListViewModel
@@ -29,7 +29,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class ViewCourseActivity : AppCompatActivity() {
 
     private val viewModel: CourseListViewModel by viewModel()
-    private lateinit var adapter: HoleAdapterMVVM
+    private lateinit var adapter: HoleAdapter
     private lateinit var course: Course
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +45,7 @@ class ViewCourseActivity : AppCompatActivity() {
 
         course_list_view_course_activity.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
-        adapter = HoleAdapterMVVM()
+        adapter = HoleAdapter()
         course_list_view_course_activity.adapter = adapter
 
         viewModel.getCourse(courseID).observe(this, Observer {
@@ -62,7 +62,7 @@ class ViewCourseActivity : AppCompatActivity() {
             }
         })
 
-        adapter.setOnItemClickListener(object : HoleAdapterMVVM.OnItemClickListener {
+        adapter.setOnItemClickListener(object : HoleAdapter.OnItemClickListener {
             override fun onClick(pos: Int) {
                 viewModel.showNumberPickerDialog(Event(pos))
             }
