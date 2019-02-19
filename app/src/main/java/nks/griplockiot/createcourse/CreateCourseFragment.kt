@@ -6,18 +6,18 @@ import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_create_course.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.newFixedThreadPoolContext
-import kotlinx.coroutines.runBlocking
 import nks.griplockiot.R
-import nks.griplockiot.data.HoleAdapter
-import nks.griplockiot.database.AppDatabase
+import nks.griplockiot.data.HoleAdapterMVVM
 import nks.griplockiot.model.Course
 import nks.griplockiot.model.Hole
+import nks.griplockiot.util.Event
+import nks.griplockiot.viewmodel.CourseListViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * CreateCourseFragment: Used to create new courses. The user can modify the amount of holes
@@ -25,70 +25,45 @@ import nks.griplockiot.model.Hole
  * Clicking the menu button collapses the menu that contains a button that can be used to insert
  * new entities to the database.
  */
-class CreateCourseFragment : Fragment(), CoroutineScope {
+class CreateCourseFragment : Fragment() {
 
     lateinit var course: Course
+    lateinit var adapter: HoleAdapterMVVM
 
     private var courseListCreateCourse: ArrayList<Hole> = ArrayList()
     private var holeIndex: Int = 18
 
-    @ObsoleteCoroutinesApi
-    override
-    val coroutineContext = newFixedThreadPoolContext(2, "bg")
-
-    interface RefreshInterface {
-        fun refreshArrayList()
-    }
+    private val viewModel: CourseListViewModel by viewModel()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        // Create the initial list of courses
-        addCourses(holeIndex)
 
         setHasOptionsMenu(true)
 
         course_list_create_course.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-        /** Create the adapter that holds the list of Holes.
-         *   Higher order function onClickListener that inflates a NumberPicker that can be used to
-         *   modify / select par / length values.
-         */
-        val adapter = HoleAdapter(courseListCreateCourse, onClickListener = { _, hole ->
-            val builder = AlertDialog.Builder(context!!)
-
-            val view = View.inflate(context, R.layout.dialog_number_picker, null)
-
-            val numberPickerPar = view.findViewById(R.id.numberPickerPar) as NumberPicker
-            val numberPickerLength = view.findViewById(R.id.numberPickerLength) as NumberPicker
-
-            numberPickerPar.minValue = 3
-            numberPickerPar.maxValue = 5
-            numberPickerPar.wrapSelectorWheel = true
-            numberPickerPar.value = hole.par
-
-            numberPickerLength.minValue = 30
-            numberPickerLength.maxValue = 500
-            numberPickerPar.wrapSelectorWheel = true
-            numberPickerLength.value = hole.length
-
-            builder.setView(view)
-
-            builder.setPositiveButton(android.R.string.ok) { dialog, _ ->
-                hole.par = numberPickerPar.value
-                hole.length = numberPickerLength.value
-                dialog.dismiss()
-                course_list_create_course.adapter?.notifyDataSetChanged()
-            }
-            builder.setNegativeButton(android.R.string.cancel) { dialog, _ ->
-                dialog.cancel()
-            }
-
-            builder.show()
-        })
+        adapter = HoleAdapterMVVM()
 
         course_list_create_course.adapter = adapter
 
+        viewModel.getDummyCourse().observe(this, Observer {
+            course = it
+            adapter.setCourse(it)
+        })
+
+        viewModel.showNumberPickerDialog.observe(this, Observer { clickPos ->
+            clickPos.getContentIfNotHandled()?.let {
+                showNumberPickerDialog(it)
+            }
+        })
+
+        adapter.setOnItemClickListener(object : HoleAdapterMVVM.OnItemClickListener {
+            override fun onClick(pos: Int) {
+                viewModel.showNumberPickerDialog(Event(pos))
+            }
+        })
+
+        // TODO: Refactor minus / plusbutton
         minusButton.setOnClickListener {
             if (holeIndex > 0) {
                 holeIndex--
@@ -106,7 +81,7 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
             if (holeIndex < 36) {
                 holeIndex++
                 holes.text = holeIndex.toString()
-                addCourse(adapter.itemCount + 1)
+                addCourse(adapter.itemCount + 1, courseListCreateCourse)
                 adapter.notifyDataSetChanged()
                 course_list_create_course.smoothScrollToPosition(courseListCreateCourse.size - 1)
             } else {
@@ -130,29 +105,47 @@ class CreateCourseFragment : Fragment(), CoroutineScope {
             R.id.menuAddCourse -> {
                 // Run the insert a new course query on background thread
                 // Calculate total par / length for the course, omit location details
-                runBlocking(coroutineContext) {
-                    AppDatabase.getInstance(context!!).getCourseDAO().insert(Course(courseNameEditText.text.toString(),
-                            calculateTotalPar(courseListCreateCourse),
-                            calculateTotalLength(courseListCreateCourse),
-                            courseListCreateCourse, null, null))
-                }
+                // viewmodel insert here
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    // Create a dummy list of Holes
-    private fun addCourses(holes: Int) {
-        for (i in 1..holes) {
-            with(courseListCreateCourse) {
-                add(Hole(i, 3, 100))
-            }
-        }
-    }
+    private fun showNumberPickerDialog(clickPos: Int) {
+        val builder = AlertDialog.Builder(context!!)
 
-    // Add a single Hole to the Course ArrayList
-    private fun addCourse(index: Int) {
-        courseListCreateCourse.add(Hole(index, 3, 100))
+        val nullParent: ViewGroup? = null
+        val view = layoutInflater.inflate(R.layout.dialog_number_picker, nullParent)
+
+        val numberPickerPar = view.findViewById(R.id.numberPickerPar) as NumberPicker
+        val numberPickerLength = view.findViewById(R.id.numberPickerLength) as NumberPicker
+
+        numberPickerPar.minValue = 3
+        numberPickerPar.maxValue = 5
+        numberPickerPar.wrapSelectorWheel = true
+        numberPickerPar.value = course.holes[clickPos].par
+
+        numberPickerLength.minValue = 30
+        numberPickerLength.maxValue = 500
+        numberPickerPar.wrapSelectorWheel = true
+        numberPickerLength.value = course.holes[clickPos].length
+
+        builder.setView(view)
+
+        builder.setPositiveButton(android.R.string.ok) { dialog, _ ->
+            // TODO: Move this logic to ViewModel
+            course.holes[clickPos].par = numberPickerPar.value
+            course.holes[clickPos].length = numberPickerLength.value
+            course.parTotal = calculateTotalPar(course.holes)
+            course.lengthTotal = calculateTotalLength(course.holes)
+            adapter.setCourse(course)
+            dialog.dismiss()
+        }
+        builder.setNegativeButton(android.R.string.cancel) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.show()
     }
 }
 
@@ -176,4 +169,19 @@ fun calculateTotalLength(holeList: List<Hole>): Int {
         lengthTotal += item.length
     }
     return lengthTotal
+}
+
+// Create a dummy list of Holes
+fun addCourses(holes: Int, courseList: ArrayList<Hole>): ArrayList<Hole> {
+    for (i in 1..holes) {
+        with(courseList) {
+            add(Hole(i, 3, 100))
+        }
+    }
+    return courseList
+}
+
+// Add a single Hole to the Course ArrayList
+fun addCourse(index: Int, courseList: ArrayList<Hole>) {
+    courseList.add(Hole(index, 3, 100))
 }
