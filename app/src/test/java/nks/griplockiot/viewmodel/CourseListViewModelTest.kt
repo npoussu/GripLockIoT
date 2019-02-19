@@ -108,6 +108,26 @@ class CourseListViewModelTest {
     }
 
     @Test
+    fun `test viewModel calls repository update course`() {
+
+        val dummyCourse = createDummyCourse()
+        viewModel.updateCourse(dummyCourse)
+
+        verify(repository, times(1)).updateCourse(dummyCourse)
+
+    }
+
+    @Test
+    fun `test viewModel calls repository insert course`() {
+
+        val dummyCourse = createDummyCourse()
+        viewModel.insertCourse(dummyCourse)
+
+        verify(repository, times(1)).insertCourse(dummyCourse)
+
+    }
+
+    @Test
     fun `test viewModel receives startNewActivity event`() {
 
         val clickEvent = event
@@ -135,7 +155,7 @@ class CourseListViewModelTest {
 
     private fun createDummyCourse(): Course {
         return Course("test", parTotal, lengthTotal,
-                listOf(Hole(hole, par, length), Hole(hole, par, length))
+                mutableListOf(Hole(hole, par, length), Hole(hole, par, length))
                 , null, null)
     }
 
