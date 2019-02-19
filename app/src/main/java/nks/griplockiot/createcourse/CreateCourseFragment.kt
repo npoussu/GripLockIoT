@@ -104,9 +104,8 @@ class CreateCourseFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menuAddCourse -> {
-                // Run the insert a new course query on background thread
-                // Calculate total par / length for the course, omit location details
-                // viewmodel insert here
+                course.name = courseNameEditText.text.toString()
+                viewModel.insertCourse(course)
             }
         }
         return super.onOptionsItemSelected(item)

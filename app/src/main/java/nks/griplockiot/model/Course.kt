@@ -10,7 +10,7 @@ import java.io.Serializable
  */
 @Entity(tableName = "course")
 data class Course(@ColumnInfo
-                  val name: String,
+                  var name: String,
                   @ColumnInfo
                   var parTotal: Int,
                   @ColumnInfo

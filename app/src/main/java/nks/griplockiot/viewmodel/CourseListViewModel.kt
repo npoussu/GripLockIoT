@@ -69,6 +69,10 @@ class CourseListViewModel(private val repository: CourseRepository) : ViewModel(
         repository.updateCourse(course)
     }
 
+    fun insertCourse(course: Course) {
+        repository.insertCourse(course)
+    }
+
     fun getHoleIndex(): LiveData<Int> {
         return holeIndexCounter
     }
