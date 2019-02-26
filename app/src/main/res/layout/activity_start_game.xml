@@ -6,12 +6,10 @@
     android:orientation="vertical"
     tools:context=".createcourse.ViewCourseActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/course_recycler_view"
+    <FrameLayout
+        android:id="@+id/choose_course_fragment_placeholder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/course_list_item">
+        android:layout_height="match_parent"></FrameLayout>
 
-    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
