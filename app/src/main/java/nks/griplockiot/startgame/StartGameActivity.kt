@@ -15,7 +15,7 @@ class StartGameActivity : AppCompatActivity() {
         setContentView(R.layout.activity_start_game)
 
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.choose_course_fragment_placeholder, ChooseCourseFragment())
+        ft.replace(R.id.fragment_holder, ChooseCourseFragment())
         ft.commit()
 
     }

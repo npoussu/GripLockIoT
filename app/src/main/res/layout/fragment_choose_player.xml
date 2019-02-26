@@ -6,24 +6,14 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_choose_course"
+        android:id="@+id/toolbar_choose_player"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="Choose course">
+        app:title="Choose player(s)">
 
     </androidx.appcompat.widget.Toolbar>
-
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/choose_course_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
-        android:orientation="vertical">
-
-    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

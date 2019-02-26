@@ -7,7 +7,7 @@
     tools:context=".createcourse.ViewCourseActivity">
 
     <FrameLayout
-        android:id="@+id/choose_course_fragment_placeholder"
+        android:id="@+id/fragment_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
 
