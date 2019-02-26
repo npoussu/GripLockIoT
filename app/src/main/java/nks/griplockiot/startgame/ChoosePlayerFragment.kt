@@ -48,6 +48,10 @@ class ChoosePlayerFragment : Fragment() {
             adapter.setPlayer(it)
         })
 
+        create_new_player.setOnClickListener {
+            AddNewPlayerDialogFragment().show(fragmentManager!!, "addNewPlayerDialogFragment")
+        }
+
         adapter.setOnItemClickListener(object : PlayerAdapter.OnItemClickListener {
             override fun onClick(pos: Int) {
                 if (player_selected.isSelected) {

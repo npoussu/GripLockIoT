@@ -32,5 +32,8 @@
     <string name="no">no</string>
     <string name="add_new_player">Add new player</string>
     <string name="create_new_player">Create new player</string>
+    <string name="input_name">Input name</string>
+    <string name="type_player_name">Type player name</string>
+    <string name="ok">OK</string>
 
 </resources>
