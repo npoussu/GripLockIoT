@@ -1,5 +1,6 @@
 package nks.griplockiot.startgame
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,20 @@ class ChooseCourseFragment : Fragment() {
 
     private val viewModel: CourseListViewModel by viewModel()
     private lateinit var adapter: CourseAdapter
+
+    var listener: OnCourseSelectedListener? = null
+
+    interface OnCourseSelectedListener {
+        fun onCourseSelected(index: Int)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = context as? OnCourseSelectedListener
+        if (listener == null) {
+            throw ClassCastException("$context must implement OnCourseSelectedListener")
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_choose_course, container, false)
@@ -44,10 +59,7 @@ class ChooseCourseFragment : Fragment() {
         adapter.setOnItemClickListener(object : CourseAdapter.OnItemClickListener {
             override fun onClick(pos: Int) {
                 //viewModel.chooseCourse(Event(pos))
-                val fm = activity!!.supportFragmentManager.beginTransaction()
-                fm.replace(R.id.fragment_holder, ChoosePlayerFragment())
-                fm.addToBackStack(null)
-                fm.commit()
+                listener!!.onCourseSelected(1)
             }
 
             override fun onLongClick(pos: Int) {

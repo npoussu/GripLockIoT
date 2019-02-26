@@ -5,10 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import nks.griplockiot.R
 
-/**
- * StartGameActivity: In progress
- */
-class StartGameActivity : AppCompatActivity() {
+class StartGameActivity : AppCompatActivity(), ChooseCourseFragment.OnCourseSelectedListener {
+
+    override fun onCourseSelected(index: Int) {
+        val fm = supportFragmentManager.beginTransaction()
+        fm.replace(R.id.fragment_holder, ChoosePlayerFragment())
+        fm.addToBackStack(null)
+        fm.commit()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
