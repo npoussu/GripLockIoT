@@ -30,5 +30,7 @@
     <string name="delete_course">Delete course?</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
+    <string name="add_new_player">Add new player</string>
+    <string name="create_new_player">Create new player</string>
 
 </resources>

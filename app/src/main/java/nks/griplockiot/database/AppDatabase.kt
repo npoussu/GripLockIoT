@@ -7,15 +7,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import nks.griplockiot.model.Course
+import nks.griplockiot.model.Player
 import nks.griplockiot.util.Converters
 
 /**
  * AppDatabase: Implementation of the abstract class RoomDatabase
  */
-@Database(entities = [Course::class], version = 5, exportSchema = false)
+@Database(entities = [Course::class, Player::class], version = 6, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getCourseDAO(): CourseDAO
+    abstract fun getPlayerDAO(): PlayerDAO
 
     // Singleton instance database, destroy db on migration
     companion object {

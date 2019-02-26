@@ -16,4 +16,19 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <Button
+        android:id="@+id/create_new_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="@string/create_new_player" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/choose_player_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
 </LinearLayout>

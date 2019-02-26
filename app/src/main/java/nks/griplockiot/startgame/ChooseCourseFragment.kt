@@ -23,7 +23,7 @@ class ChooseCourseFragment : Fragment() {
     var listener: OnCourseSelectedListener? = null
 
     interface OnCourseSelectedListener {
-        fun onCourseSelected(index: Int)
+        fun onCourseSelected(index: Int?)
     }
 
     override fun onAttach(context: Context) {
@@ -59,7 +59,8 @@ class ChooseCourseFragment : Fragment() {
         adapter.setOnItemClickListener(object : CourseAdapter.OnItemClickListener {
             override fun onClick(pos: Int) {
                 //viewModel.chooseCourse(Event(pos))
-                listener!!.onCourseSelected(1)
+                val courseID = adapter.getCourseAt(pos).id
+                listener!!.onCourseSelected(courseID)
             }
 
             override fun onLongClick(pos: Int) {
