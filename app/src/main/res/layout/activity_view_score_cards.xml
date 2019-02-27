@@ -7,7 +7,6 @@
     tools:context=".createcourse.ViewCourseActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/course_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/course_list_item">

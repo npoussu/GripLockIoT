@@ -9,6 +9,10 @@ import nks.griplockiot.R
 import nks.griplockiot.data.CourseAdapter.ViewHolder
 import nks.griplockiot.model.Course
 
+
+/**
+ * CourseAdapter: Holds a list of Course-objects
+ */
 class CourseAdapter : RecyclerView.Adapter<ViewHolder>() {
 
     private var courseList: List<Course> = ArrayList()

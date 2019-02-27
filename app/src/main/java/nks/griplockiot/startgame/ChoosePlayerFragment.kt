@@ -23,8 +23,6 @@ class ChoosePlayerFragment : Fragment() {
 
     private val viewModel: PlayerListViewModel by viewModel()
 
-    // TODO: Grab edittext (playername) value from Dialog and create a new Player object, insert to DB and update recyclerview
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_choose_player, container, false)
@@ -46,11 +44,7 @@ class ChoosePlayerFragment : Fragment() {
         adapter = PlayerAdapter()
 
         choose_player_recyclerview.adapter = adapter
-        /*
-        viewModel.getDummyPlayerList().observe(this, Observer {
-            adapter.setPlayer(it)
-        })
-          */
+
         viewModel.getPlayerList().observe(this, Observer {
             adapter.setPlayer(it)
         })
@@ -66,10 +60,13 @@ class ChoosePlayerFragment : Fragment() {
             dialog.show(fragmentManager!!, "addNewPlayerDialogFragment")
         }
 
+        start_new_game.setOnClickListener {
+            Toast.makeText(context, "Start new game", Toast.LENGTH_LONG).show()
+        }
+
         adapter.setOnItemClickListener(object : PlayerAdapter.OnItemClickListener {
             override fun onClick(pos: Int) {
-
-
+                // do nothing
             }
 
             override fun onLongClick(pos: Int) {

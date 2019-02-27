@@ -8,7 +8,6 @@
     tools:context=".createcourse.CreateCourseActivity">
 
     <TextView
-        android:id="@+id/courseName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -26,7 +25,6 @@
         android:inputType="text" />
 
     <TextView
-        android:id="@+id/numberOfHoles"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

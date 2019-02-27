@@ -11,9 +11,17 @@ import org.koin.dsl.module.module
 
 object Appmodule {
 
-    val myModule = module(override = true) {
-        single { CourseRepository(get()) }
+    val viewModelModule = module(override = true) {
         viewModel { CourseListViewModel(get()) }
+        viewModel { PlayerListViewModel(get()) }
+    }
+
+    val repositoryModule = module(override = true) {
+        single { CourseRepository(get()) }
+        single { PlayerRepository(get()) }
+    }
+
+    val databaseModule = module(override = true) {
         single {
             Room.databaseBuilder(
                     get(),
@@ -22,10 +30,10 @@ object Appmodule {
                     .fallbackToDestructiveMigration()
                     .build()
         }
-        single { get<AppDatabase>().getCourseDAO() }
+    }
 
-        single { PlayerRepository(get()) }
-        viewModel { PlayerListViewModel(get()) }
+    val daoModule = module(override = true) {
+        single { get<AppDatabase>().getCourseDAO() }
         single { get<AppDatabase>().getPlayerDAO() }
     }
 }

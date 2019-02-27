@@ -5,7 +5,6 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/add_player_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

@@ -10,7 +10,7 @@ import nks.griplockiot.R
 import nks.griplockiot.model.Player
 
 /**
- * HoleAdapter: Holds a list of Hole-objects
+ * PlayerAdapter: Holds a list of Player-objects
  */
 class PlayerAdapter : RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
 
