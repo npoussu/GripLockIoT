@@ -3,6 +3,7 @@ package nks.griplockiot.data
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import nks.griplockiot.R
@@ -32,16 +33,23 @@ class PlayerAdapter : RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val playerName = itemView.findViewById<TextView?>(R.id.player_name)
+        val checkBox = itemView.findViewById<CheckBox?>(R.id.player_selected)
 
         init {
             itemView.setOnClickListener {
                 listenerImpl.onClick(adapterPosition)
+                checkBox!!.isChecked = !checkBox.isChecked
+            }
+            itemView.setOnLongClickListener {
+                listenerImpl.onLongClick(adapterPosition)
+                true
             }
         }
     }
 
     interface OnItemClickListener {
         fun onClick(pos: Int)
+        fun onLongClick(pos: Int)
     }
 
     fun setOnItemClickListener(listener: PlayerAdapter.OnItemClickListener) {
@@ -52,6 +60,10 @@ class PlayerAdapter : RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
         // TODO: notifyDataSetChanged is relatively slow (refreshes whole RecyclerView, refactor to faster
         playerList = player
         notifyDataSetChanged()
+    }
+
+    fun getPlayerAt(pos: Int): Player {
+        return playerList[pos]
     }
 
 }

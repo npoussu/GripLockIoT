@@ -112,6 +112,7 @@ class CreateCourseFragment : Fragment() {
     }
 
     private fun showNumberPickerDialog(clickPos: Int) {
+        // TODO: Create an own class for this dialog
         val builder = AlertDialog.Builder(context!!)
 
         val nullParent: ViewGroup? = null

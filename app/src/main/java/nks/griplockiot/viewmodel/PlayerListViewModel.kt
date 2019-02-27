@@ -5,10 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import nks.griplockiot.model.Player
 import nks.griplockiot.repository.PlayerRepository
+import nks.griplockiot.util.Event
 
 class PlayerListViewModel(private val repository: PlayerRepository) : ViewModel() {
 
     private var dummyPlayer = MutableLiveData<List<Player>>()
+    private val showDialogVal = MutableLiveData<Event<Int>>()
 
     fun getPlayerList(): LiveData<List<Player>> {
         return repository.getPlayerList()
@@ -38,5 +40,13 @@ class PlayerListViewModel(private val repository: PlayerRepository) : ViewModel(
     fun insertPlayer(player: Player) {
         repository.insertPlayer(player)
     }
+
+    val showDialog: LiveData<Event<Int>>
+        get() = showDialogVal
+
+    fun showDeleteDialog(event: Event<Int>) {
+        showDialogVal.value = event
+    }
+
 
 }
