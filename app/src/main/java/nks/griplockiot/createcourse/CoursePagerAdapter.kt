@@ -3,14 +3,12 @@ package nks.griplockiot.createcourse
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 /**
  * CoursePagerAdapter: PagerAdapter for paging the different Fragments in the Activity
  */
 class CoursePagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
-    @ObsoleteCoroutinesApi
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> CreateCourseFragment()

@@ -1,6 +1,7 @@
 package nks.griplockiot.startgame
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,7 +62,13 @@ class ChoosePlayerFragment : Fragment() {
         }
 
         start_new_game.setOnClickListener {
+            // TODO: Create a FragmentViewPager that loads a desired course, creates fragments = amounts of holes
+            /// TODO: loads hole data and loads the players and sets up fields for each player
+            // TODO: The FragmentViewPager then updates a hole to the GameScore every time the values change
+
+            // TODO: Create
             Toast.makeText(context, "Start new game", Toast.LENGTH_LONG).show()
+            activity!!.startActivity(Intent(this@ChoosePlayerFragment.context, GameActivity::class.java))
         }
 
         adapter.setOnItemClickListener(object : PlayerAdapter.OnItemClickListener {

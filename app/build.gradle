@@ -90,5 +90,7 @@ dependencies {
 
     implementation 'androidx.fragment:fragment:1.1.0-alpha04'
     debugImplementation 'androidx.fragment:fragment-testing:1.1.0-alpha04'
+    implementation "android.arch.navigation:navigation-fragment:1.0.0-rc02"
+    implementation "android.arch.navigation:navigation-ui:1.0.0-rc02"
 
 }
