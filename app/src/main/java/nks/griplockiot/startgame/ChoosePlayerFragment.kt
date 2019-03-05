@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_choose_player.*
 import nks.griplockiot.R
 import nks.griplockiot.data.PlayerAdapter
+import nks.griplockiot.startgame.game.GameActivity
 import nks.griplockiot.util.Event
 import nks.griplockiot.viewmodel.PlayerListViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -68,7 +69,12 @@ class ChoosePlayerFragment : Fragment() {
 
             // TODO: Create
             Toast.makeText(context, "Start new game", Toast.LENGTH_LONG).show()
-            activity!!.startActivity(Intent(this@ChoosePlayerFragment.context, GameActivity::class.java))
+            val intent = Intent(this@ChoosePlayerFragment.context, GameActivity::class.java)
+            val playerIDs = arrayListOf(1, 2, 3, 4, 5)
+            intent.putExtra("courseID", courseID)
+            // TODO: Remove hardcoded playerIDs and send in this intent
+            intent.putExtra("playerIDs", playerIDs)
+            activity!!.startActivity(intent)
         }
 
         adapter.setOnItemClickListener(object : PlayerAdapter.OnItemClickListener {

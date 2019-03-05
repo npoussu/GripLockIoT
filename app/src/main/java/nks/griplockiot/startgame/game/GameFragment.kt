@@ -1,4 +1,4 @@
-package nks.griplockiot.startgame
+package nks.griplockiot.startgame.game
 
 import android.os.Bundle
 import android.view.LayoutInflater

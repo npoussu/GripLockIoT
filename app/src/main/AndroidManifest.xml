@@ -29,7 +29,7 @@
             android:label="@string/title_activity_start_game"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".startgame.GameActivity"
+            android:name=".startgame.game.GameActivity"
             android:label="GameActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".viewscorecards.ViewScoreCardsActivity" />
