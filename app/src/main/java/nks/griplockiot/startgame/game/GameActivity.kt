@@ -8,11 +8,16 @@ import nks.griplockiot.R
 
 class GameActivity : AppCompatActivity() {
 
+    // TODO: Create Game object that holds game data and keep it at the ViewModel
+    // TODO: Create ViewModel :)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
         val fragmentManager = supportFragmentManager
+
+        // TODO: Get amount of holes from DB (Course.holes)
         val fragmentAdapter = GamePagerAdapter(fragmentManager, 36)
         viewpager_game.adapter = fragmentAdapter
 

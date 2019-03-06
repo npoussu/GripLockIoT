@@ -29,6 +29,9 @@ class PlayerAdapter : RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = playerList[position]
         holder.playerName?.text = item.name
+        holder.checkBox!!.setOnCheckedChangeListener { _, isChecked ->
+            item.selected = isChecked
+        }
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -66,6 +69,11 @@ class PlayerAdapter : RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
         return playerList[pos]
     }
 
+    fun getPlayerList(): List<Player> {
+        return playerList
+    }
+
 }
+
 
 

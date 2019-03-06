@@ -10,6 +10,8 @@ import nks.griplockiot.R
 
 class GameFragment : Fragment() {
 
+    // TODO: Load hole details from DB using the ARG_INDEX
+
     companion object {
 
         private const val ARG_INDEX = "gameFragment_index"
