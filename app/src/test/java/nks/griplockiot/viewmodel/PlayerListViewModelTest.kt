@@ -3,7 +3,6 @@ package nks.griplockiot.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import nks.griplockiot.model.Course
 import nks.griplockiot.model.Player
 import nks.griplockiot.repository.PlayerRepository
 import nks.griplockiot.util.Event
@@ -24,7 +23,7 @@ class PlayerListViewModelTest {
     private lateinit var viewModel: PlayerListViewModel
 
     private lateinit var dataResponseList: MutableLiveData<List<Player>>
-    private lateinit var dataResponse: MutableLiveData<Course>
+    private lateinit var dataResponse: MutableLiveData<Player>
     private lateinit var dataResponseEvent: MutableLiveData<Event<Int>>
 
     @Mock
@@ -32,6 +31,9 @@ class PlayerListViewModelTest {
 
     @Mock
     lateinit var observerEvent: Observer<Event<Int>>
+
+    @Mock
+    lateinit var observer: Observer<Player>
 
     @Mock
     lateinit var repository: PlayerRepository
@@ -66,6 +68,18 @@ class PlayerListViewModelTest {
 
     }
 
+    @Test
+    fun `test viewModel gets observable player by id`() {
+
+        val returnedCourse = createDummyPlayerList()
+        dataResponse.value = returnedCourse[0]
+
+        Mockito.`when`(repository.getPlayer(Mockito.anyInt())).thenReturn(dataResponse)
+
+        viewModel.getPlayer(54).observeForever(observer)
+
+        verify(observer).onChanged(Player("Sulava Operaattori"))
+    }
 
     @Test
     fun `test viewModel calls repository delete course`() {
