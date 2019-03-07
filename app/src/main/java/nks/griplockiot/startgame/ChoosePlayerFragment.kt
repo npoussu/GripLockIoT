@@ -3,7 +3,6 @@ package nks.griplockiot.startgame
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,13 +65,10 @@ class ChoosePlayerFragment : Fragment() {
         }
 
         start_new_game.setOnClickListener {
-            Log.i(TAG, adapter.getPlayerList().toString())
             Toast.makeText(context, "Start new game", Toast.LENGTH_LONG).show()
             val intent = Intent(this@ChoosePlayerFragment.context, GameActivity::class.java)
-            val playerIDs = arrayListOf(1, 2, 3, 4, 5)
             intent.putExtra("courseID", courseID)
-            // TODO: Remove hardcoded playerIDs and send in this intent
-            intent.putExtra("playerIDs", playerIDs)
+            intent.putExtra("playerIDs", adapter.getSelectedPlayers())
             activity!!.startActivity(intent)
         }
 

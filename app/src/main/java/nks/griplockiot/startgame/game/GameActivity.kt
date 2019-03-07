@@ -1,7 +1,7 @@
 package nks.griplockiot.startgame.game
 
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_game.*
 import nks.griplockiot.R
@@ -9,7 +9,11 @@ import nks.griplockiot.R
 class GameActivity : AppCompatActivity() {
 
     // TODO: Create Game object that holds game data and keep it at the ViewModel
-    // TODO: Create ViewModel :)
+
+    companion object {
+        private val TAG = GameActivity::class.java.simpleName
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,14 +28,14 @@ class GameActivity : AppCompatActivity() {
         val courseID = intent.extras.getInt("courseID")
         val players = intent.extras.getIntegerArrayList("playerIDs")
 
-        // Hardcoded, for testing
-        Toast.makeText(this, "CourseID: " + courseID.toString() + " " + "Player IDs: " +
-                players[0].toString() + "," +
-                players[1].toString() + "," +
-                players[2].toString() + "," +
-                players[3].toString() + "," +
-                players[4].toString(),
-                Toast.LENGTH_LONG).show()
+        Log.i(TAG, courseID.toString())
+
+
+        for (i in 0 until players.size) {
+            Log.i(TAG, players[i].toString())
+        }
+
+
 
     }
 }
