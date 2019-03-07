@@ -14,7 +14,6 @@ class GameActivity : AppCompatActivity() {
         private val TAG = GameActivity::class.java.simpleName
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -34,8 +33,6 @@ class GameActivity : AppCompatActivity() {
         for (i in 0 until players.size) {
             Log.i(TAG, players[i].toString())
         }
-
-
 
     }
 }

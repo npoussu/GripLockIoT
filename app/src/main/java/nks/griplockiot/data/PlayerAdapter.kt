@@ -69,10 +69,6 @@ class PlayerAdapter : RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
         return playerList[pos]
     }
 
-    fun getPlayerList(): List<Player> {
-        return playerList
-    }
-
     fun getSelectedPlayers(): ArrayList<Int> {
         val selectedPlayers = ArrayList<Int>()
         for (i in 0 until playerList.size) {
