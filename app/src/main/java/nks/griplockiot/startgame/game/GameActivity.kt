@@ -18,6 +18,11 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        setSupportActionBar(toolbar_game)
+
+        supportActionBar!!.title = "Course: XYZ"
+        supportActionBar!!.subtitle = "Holes: XY"
+
         val fragmentManager = supportFragmentManager
 
         // TODO: Get amount of holes from DB (Course.holes)
