@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Hole: 1"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/guidelineVerticalLeft"
         app:layout_constraintTop_toTopOf="@id/guidelineToolbar" />
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Par: 3"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/guidelineVerticalRight"
         app:layout_constraintTop_toTopOf="@id/guidelineToolbar" />
@@ -46,12 +46,24 @@
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="Game"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/game_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/gameConstraintLayout"
+        app:layout_constraintEnd_toEndOf="@id/gameConstraintLayout"
+        app:layout_constraintStart_toStartOf="@id/gameConstraintLayout"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHoleHeader">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHoleHeader"

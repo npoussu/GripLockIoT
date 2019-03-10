@@ -5,10 +5,12 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_game.*
 import nks.griplockiot.R
+import nks.griplockiot.viewmodel.GameViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class GameActivity : AppCompatActivity() {
 
-    // TODO: Create Game object that holds game data and keep it at the ViewModel
+    private val viewModel: GameViewModel by viewModel()
 
     companion object {
         private val TAG = GameActivity::class.java.simpleName

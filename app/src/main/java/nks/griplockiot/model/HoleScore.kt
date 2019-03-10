@@ -1,3 +1,3 @@
 package nks.griplockiot.model
 
-data class HoleScore(private val ID: Int, private var score: Int)
+data class HoleScore(val ID: Int, var score: Int)

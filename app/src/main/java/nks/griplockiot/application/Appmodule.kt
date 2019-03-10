@@ -5,6 +5,7 @@ import nks.griplockiot.database.AppDatabase
 import nks.griplockiot.repository.CourseRepository
 import nks.griplockiot.repository.PlayerRepository
 import nks.griplockiot.viewmodel.CourseListViewModel
+import nks.griplockiot.viewmodel.GameViewModel
 import nks.griplockiot.viewmodel.PlayerListViewModel
 import org.koin.android.viewmodel.ext.koin.viewModel
 import org.koin.dsl.module.module
@@ -14,6 +15,7 @@ object Appmodule {
     val viewModelModule = module(override = true) {
         viewModel { CourseListViewModel(get()) }
         viewModel { PlayerListViewModel(get()) }
+        viewModel { GameViewModel(get(), get()) }
     }
 
     val repositoryModule = module(override = true) {
