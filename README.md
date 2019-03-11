@@ -24,7 +24,22 @@ To build the app, use the gradlew build command or use "Import Project" in Andro
 
 ### Architecture
 
-MVVM (https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel) & MVC (https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)
+This app is built using:
+
+    - Android Architectural Components
+        - LiveData
+        - Room
+        - ViewModel
+        - MVVM 
+    - Dependency Injection
+        - Koin
+    - Testing frameworks
+        - JUnit
+        - Espresso
+        - Roboelectric
+        - Mockito
+    - Utility
+        - LiveEvent (https://github.com/hadilq/LiveEvent)
 
 ## Running the tests
 
