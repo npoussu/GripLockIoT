@@ -93,4 +93,6 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment:1.0.0-rc02"
     implementation "android.arch.navigation:navigation-ui:1.0.0-rc02"
 
+    implementation "com.github.hadilq.liveevent:liveevent:1.0.1"
+
 }

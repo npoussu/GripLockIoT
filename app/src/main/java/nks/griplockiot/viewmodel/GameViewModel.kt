@@ -3,12 +3,14 @@ package nks.griplockiot.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.hadilq.liveevent.LiveEvent
 import nks.griplockiot.model.*
 import nks.griplockiot.repository.CourseRepository
 import nks.griplockiot.repository.PlayerRepository
 
 class GameViewModel(private val courseRepository: CourseRepository,
-                    private val playerRepository: PlayerRepository) : ViewModel() {
+                    private val playerRepository: PlayerRepository,
+                    private val ID: Int) : ViewModel() {
 
     private var dummyCourseScore = MutableLiveData<List<CourseScore>>()
 
@@ -20,8 +22,24 @@ class GameViewModel(private val courseRepository: CourseRepository,
         courseScore.holeScores = listOf(HoleScore(1, 3),
                 HoleScore(2, 3),
                 HoleScore(3, 4))
-        dummyCourseScore.value = listOf(courseScore)
+        dummyCourseScore.value = listOf(courseScore, courseScore, courseScore)
         return dummyCourseScore
     }
 
+    fun getSingleCourse(id: Int): LiveData<Course> {
+        val livedata = courseRepository.getCourse(id)
+        return livedata.toSingleEvent()
+    }
+
+    fun getCurrentCourse(): LiveData<Course> {
+        return courseRepository.getCourse(ID)
+    }
+}
+
+fun <T> LiveData<T>.toSingleEvent(): LiveData<T> {
+    val result = LiveEvent<T>()
+    result.addSource(this) {
+        result.value = it
+    }
+    return result
 }

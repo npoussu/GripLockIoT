@@ -15,7 +15,7 @@ object Appmodule {
     val viewModelModule = module(override = true) {
         viewModel { CourseListViewModel(get()) }
         viewModel { PlayerListViewModel(get()) }
-        viewModel { GameViewModel(get(), get()) }
+        viewModel { (id: Int) -> GameViewModel(get(), get(), id) }
     }
 
     val repositoryModule = module(override = true) {
