@@ -44,5 +44,13 @@ class GameActivity : AppCompatActivity() {
             Log.i(TAG, it.toString())
         })
 
+        viewModel.getHoleListLiveData().observe(this, Observer {
+            // Log all individual holes
+            for (i in 0 until it.size) {
+                Log.i(TAG, it[i].toString())
+            }
+
+        })
+
     }
 }

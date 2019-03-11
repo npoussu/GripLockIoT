@@ -36,6 +36,18 @@
         app:layout_constraintTop_toTopOf="@id/guidelineToolbar" />
 
     <TextView
+        android:id="@+id/holeLength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Length: 100"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/holePar"
+        app:layout_constraintStart_toStartOf="@id/holeID"
+        app:layout_constraintTop_toTopOf="@id/guidelineToolbar" />
+
+    <TextView
         android:id="@+id/game_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
