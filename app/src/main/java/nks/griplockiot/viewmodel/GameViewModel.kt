@@ -21,7 +21,9 @@ class GameViewModel(private val courseRepository: CourseRepository,
         currentCourse.holes
     }
 
+    // TODO: Get Players that join the game from DB
 
+    // TODO: Setup actual course scores method
     fun getDummyCourseScoresList(): LiveData<List<CourseScore>> {
         val hole = mutableListOf(Hole(1, 3, 50), Hole(2, 3, 50), Hole(3, 3, 50))
         val course = Course("TestCourse", 68, 2000, hole, null, null)

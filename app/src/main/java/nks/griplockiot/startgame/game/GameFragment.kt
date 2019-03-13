@@ -55,6 +55,8 @@ class GameFragment : Fragment() {
             adapter.setCourseScores(it)
         })
 
+        // TODO: Move string to resources, fix lint error
+
         viewModel.getHoleListLiveData().observe(this, Observer {
             holeID.text = "Hole: " + it[fragmentIndex - 1].hole.toString()
             holeLength.text = "Length: " + it[fragmentIndex - 1].length.toString()
