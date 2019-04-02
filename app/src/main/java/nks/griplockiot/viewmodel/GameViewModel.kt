@@ -15,20 +15,20 @@ class GameViewModel(private val courseRepository: CourseRepository,
 
     private val dummyCourseScore = MutableLiveData<List<CourseScore>>()
 
+    val players = MutableLiveData<List<Int>>()
+
     private val currentCourse: LiveData<Course> = courseRepository.getCourse(ID)
 
     private val holeList: LiveData<List<Hole>> = Transformations.map(currentCourse) { currentCourse ->
         currentCourse.holes
     }
 
-    // TODO: Get Players that join the game from DB
-
     // TODO: Setup actual course scores method
     fun getDummyCourseScoresList(): LiveData<List<CourseScore>> {
         val hole = mutableListOf(Hole(1, 3, 50), Hole(2, 3, 50), Hole(3, 3, 50))
         val course = Course("TestCourse", 68, 2000, hole, null, null)
         val player = Player("TestPlayer")
-        val courseScore = CourseScore(1, course, player)
+        val courseScore = CourseScore(course, player)
         courseScore.holeScores = listOf(HoleScore(1, 3),
                 HoleScore(2, 3),
                 HoleScore(3, 4))

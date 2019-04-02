@@ -29,7 +29,8 @@ class GameActivity : AppCompatActivity() {
 
         val players = intent.extras.getIntegerArrayList("playerIDs")
 
-        //TODO: Create a recyclerview row for every player #playerslist
+        // Set the list of Players to ViewModel
+        viewModel.players.postValue(players)
 
         viewModel.getSingleCourse(courseID).observe(this, Observer {
             val fragmentManager = supportFragmentManager

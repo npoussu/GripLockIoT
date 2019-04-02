@@ -3,8 +3,7 @@ package nks.griplockiot.model
 /*
 * CourseScore: Data class that represents the total score for a given course & player
 * */
-data class CourseScore(val ID: Int,
-                       val course: Course,
+data class CourseScore(val course: Course,
                        val player: Player) {
 
     var holeScores: List<HoleScore> = ArrayList()
